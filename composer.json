@@ -1,0 +1,23 @@
+{
+	"description": "The CodeIgniter framework",
+	"name": "codeigniter/framework",
+	"type": "project",
+	"homepage": "https://codeigniter.com",
+	"license": "MIT",
+	"support": {
+		"forum": "http://forum.codeigniter.com/",
+		"wiki": "https://github.com/bcit-ci/CodeIgniter/wiki",
+		"slack": "https://codeigniterchat.slack.com",
+		"source": "https://github.com/bcit-ci/CodeIgniter"
+	},
+	"require": {
+		"php": ">=7.3.0",
+		"filp/whoops": "^2.5",
+		"yidas/pagination": "^1.0",
+		"phpoffice/phpspreadsheet": "^1.23",
+		"fpdf/fpdf": "^1.84"
+	},
+	"require-dev": {
+		"mikey179/vfsstream": "1.1.*"
+	}
+}
