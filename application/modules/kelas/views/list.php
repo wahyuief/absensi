@@ -32,7 +32,7 @@
                   <tr>
                       <th width="5">#</th>
                       <th>Nama Kelas</th>
-                      <th>Mahasiswa</th>
+                      <th>Mata Kuliah</th>
                       <th width="100" class="text-center">Action</th>
                   </tr>
               </thead>
@@ -41,7 +41,7 @@
                   <tr>
                       <td><?php echo $i++; ?></td>
                       <td><?php echo $data->nama_kelas; ?></td>
-                      <td><a href="<?php echo base_url('kelas/mahasiswa/' . wah_encode($data->id_kelas)) ?>">Lihat Mahasiswa</a></td>
+                      <td><a href="<?php echo base_url('kelas/matkul/' . wah_encode($data->id_kelas)) ?>">Lihat Mata Kuliah</a></td>
                       <td class="text-center">
                         <div class="btn-group">
                           <a href="#" class="text-lg text-dark" data-toggle="dropdown" aria-expanded="true"><i class="fas fa-ellipsis"></i></a>

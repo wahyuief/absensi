@@ -4,7 +4,7 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Fpdf\Fpdf;
 
-class Mahasiswa extends BackendController {
+class Matkul extends BackendController {
 
     public function __construct()
     {
@@ -13,123 +13,96 @@ class Mahasiswa extends BackendController {
 		$this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'ion_auth'), $this->config->item('error_end_delimiter', 'ion_auth'));
 		$this->lang->load('auth');
 		$this->load->model('km_model');
+		$this->load->model('kmm_model');
 		$this->load->model('kelas_model');
 		$this->load->model('semester_model');
+		$this->load->model('matkul_model');
     }
 
-	public function index($id_kelas)
+	public function index($id)
 	{
-		$id_kelas = wah_decode($id_kelas);
+		$id = wah_decode($id);
 		$search = (input_get('nama_kelas') ? ['nama_kelas' => input_get('nama_kelas')] : false);
-		$this->data['total'] = $this->km_model->get(['kelas_mahasiswa.id_kelas' => $id_kelas], $search)->num_rows();
+		$this->data['total'] = $this->kmm_model->get(['kelas_matkul_mahasiswa.id_mahasiswa' => $id], $search)->num_rows();
 		$this->data['pagination'] = new \yidas\data\Pagination([
 			'perPageParam' => '',
 			'totalCount' => $this->data['total'],
 			'perPage' => 10,
 		]);
 		$this->data['start'] = ($this->data['total'] > 0 ? $this->data['pagination']->offset+1 : 0);
-		$this->data['end'] = ($this->data['total'] > 0 ? $this->km_model->get(['kelas_mahasiswa.id_kelas' => $id_kelas], $search, $this->data['pagination']->limit, $this->data['pagination']->offset)->num_rows() : 0);
-		$this->data['datas'] = $this->km_model->get(['kelas_mahasiswa.id_kelas' => $id_kelas], $search, $this->data['pagination']->limit, $this->data['pagination']->offset)->result();
-		$this->data['kelas'] = $this->kelas_model->get(['id_kelas' => $id_kelas])->row();
+		$this->data['end'] = ($this->data['total'] > 0 ? $this->kmm_model->get(['kelas_matkul_mahasiswa.id_mahasiswa' => $id], $search, $this->data['pagination']->limit, $this->data['pagination']->offset)->num_rows() : 0);
+		$this->data['datas'] = $this->kmm_model->get(['kelas_matkul_mahasiswa.id_mahasiswa' => $id], $search, $this->data['pagination']->limit, $this->data['pagination']->offset)->result();
+		$this->data['user'] = $this->ion_auth->where('id', $id)->users()->row();
 		$this->data['message'] = $this->_show_message();
 
-		$this->_render_page('kelas/mahasiswa/list', $this->data);
+		$this->_render_page('mahasiswa/matkul/list', $this->data);
 	}
 
 	public function add($id)
 	{
-		$this->form_validation->set_rules('mahasiswa', 'mahasiswa', 'trim|required');
-		$this->form_validation->set_rules('semester', 'semester', 'trim|required');
+		$this->form_validation->set_rules('matkul', 'matkul', 'trim|required');
 
 		if ($this->form_validation->run() === TRUE) {
 			$data = [
-				'id_mahasiswa' => input_post('mahasiswa'),
-				'id_kelas' => wah_decode($id),
-				'id_semester' => input_post('semester'),
+				'id_km' => input_post('matkul'),
+				'id_mahasiswa' => wah_decode($id),
 			];
 		}
 		
-		if ($this->form_validation->run() === TRUE && $this->km_model->add($data)) {
+		if ($this->form_validation->run() === TRUE && $this->kmm_model->add($data)) {
 			$this->_set_message('success', 'Data berhasil disimpan');
-			redirect(base_url('kelas/mahasiswa/' . $id), 'refresh');
+			redirect(base_url('mahasiswa/matkul/' . $id), 'refresh');
 		} else {
-			$mahasiswa = $this->ion_auth->order_by('id', 'DESC')->users('mahasiswa')->result();
-			$mhsw = array();
-			foreach ($mahasiswa as $mah) {
-				if (!$this->km_model->get(['id_mahasiswa' => $mah->id])->num_rows()) {
-					$mhsw[] = array(
-						'id' => $mah->id,
-						'fullname' => $mah->fullname
-					);
-				}
-			}
 			$this->data['message'] = $this->_show_message('error', validation_errors());
-			$this->data['mahasiswa'] = $mhsw;
-			$this->data['semester'] = $this->semester_model->get(false, ['tahun' => date('Y')])->result();
-			$this->_render_page('kelas/mahasiswa/add', $this->data);
+			$this->data['matkul'] = $this->km_model->get()->result();
+			$this->_render_page('mahasiswa/matkul/add', $this->data);
 		}
 	}
 
 	public function edit($id)
 	{
-		$data = $this->km_model->get(['id_km' => wah_decode($id)]);
-		if (!$data->num_rows()) redirect(base_url('kelas/mahasiswa/' . $id), 'refresh');
+		$data = $this->kmm_model->get(['id_kmm' => wah_decode($id)]);
+		if (!$data->num_rows()) redirect(base_url('mahasiswa/matkul/' . $id), 'refresh');
 
 		$data = $data->row();
 		
-		$this->form_validation->set_rules('mahasiswa', 'mahasiswa', 'trim|required');
-		$this->form_validation->set_rules('kelas', 'kelas', 'trim|required');
-		$this->form_validation->set_rules('semester', 'semester', 'trim|required');
+		$this->form_validation->set_rules('matkul', 'matkul', 'trim|required');
 
 		if ($this->form_validation->run() === TRUE) {
-			if ($data->id_km != wah_decode(input_post('id'))) show_error($this->lang->line('error_csrf'));
+			if ($data->id_kmm != wah_decode(input_post('id'))) show_error($this->lang->line('error_csrf'));
 			$input = [
-				'id_mahasiswa' => input_post('mahasiswa'),
-				'id_kelas' => input_post('kelas'),
-				'id_semester' => input_post('semester'),
+				'id_km' => input_post('matkul')
 			];
 
-			if ($this->km_model->set($input, ['id_km' => $data->id_km])) {
+			if ($this->kmm_model->set($input, ['id_kmm' => $data->id_kmm])) {
 				$this->_set_message('success', 'Data berhasil disimpan');
-				redirect(base_url('kelas/mahasiswa/edit/' . wah_encode($data->id_km)), 'refresh');
 			} else {
 				$this->_set_message('error', 'Data gagal disimpan');
-				redirect(base_url('kelas/mahasiswa/edit/' . wah_encode($data->id_km)), 'refresh');
 			}
+			redirect(base_url('mahasiswa/matkul/edit/' . wah_encode($data->id_kmm)), 'refresh');
 		} else {
 			$this->data['message'] = $this->_show_message('error', validation_errors());
-			$mahasiswa = $this->ion_auth->order_by('id', 'DESC')->users('mahasiswa')->result();
-			$mhsw = array();
-			foreach ($mahasiswa as $mah) {
-				$mhsw[] = array(
-					'id' => $mah->id,
-					'fullname' => $mah->fullname
-				);
-			}
-			$this->data['message'] = $this->_show_message('error', validation_errors());
-			$this->data['mahasiswa'] = $mhsw;
-			$this->data['semester'] = $this->semester_model->get(false, ['tahun' => date('Y')])->result();
-			$this->data['kelas'] = $this->kelas_model->get()->result();
+			$this->data['matkul'] = $this->km_model->get()->result();
 			$this->data['data'] = $data;
 	
-			$this->_render_page('kelas/mahasiswa/edit', $this->data);
+			$this->_render_page('mahasiswa/matkul/edit', $this->data);
 		}
 
 	}
 
 	public function delete($id)
 	{
-		$data = $this->km_model->get(['id_km' => wah_decode($id)]);
+		$data = $this->kmm_model->get(['id_kmm' => wah_decode($id)]);
 		if (!$data->num_rows()) redirect(base_url('kelas'), 'refresh');
 
-		if ($this->km_model->unset(['id_km' => $data->row()->id_km])) $this->_set_message('success', 'Data berhasil dihapus');
-		redirect(base_url('kelas/mahasiswa'), 'refresh');
+		if ($this->km_model->unset(['id_kmm' => $data->row()->id_kmm])) $this->_set_message('success', 'Data berhasil dihapus');
+		redirect(base_url('mahasiswa/matkul'), 'refresh');
 	}
 
 	public function export_excel()
 	{
 		$title = 'Export Kelas ' . date('d M Y');
-		$datas = $this->km_model->get()->result();
+		$datas = $this->kmm_model->get()->result();
 
 		$spreadsheet = new Spreadsheet();
 		foreach(range('A','F') as $columnID) $spreadsheet->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);
@@ -158,7 +131,7 @@ class Mahasiswa extends BackendController {
 	public function export_pdf()
 	{
 		$title = 'Export Kelas ' . date('d M Y');
-		$datas = $this->km_model->get()->result();
+		$datas = $this->kmm_model->get()->result();
 
 		$pdf = new Fpdf();
 		$headers = array('Nama Kelas');

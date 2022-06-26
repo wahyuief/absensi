@@ -53,8 +53,8 @@ $route['auth/password/forgot'] = 'auth/forgot_password';
 $route['auth/password/reset/(:any)'] = 'auth/reset_password/$1';
 $route['logout'] = 'dashboard/logout';
 
-$route['kelas/mahasiswa/(:any)'] = 'kelas/mahasiswa/index/$1';
-$route['matkul/mahasiswa/(:any)'] = 'matkul/mahasiswa/index/$1';
+$route['kelas/matkul/(:any)'] = 'kelas/matkul/index/$1';
+$route['mahasiswa/matkul/(:any)'] = 'mahasiswa/matkul/index/$1';
 
 $route['default_controller'] = 'auth';
 $route['404_override'] = '';

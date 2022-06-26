@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jun 25, 2022 at 01:43 AM
+-- Generation Time: Jun 26, 2022 at 03:25 PM
 -- Server version: 10.7.3-MariaDB-log
 -- PHP Version: 7.4.28
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `absensi`
+-- Database: `facedetection`
 --
 
 -- --------------------------------------------------------
@@ -80,23 +80,42 @@ INSERT INTO `kelas` (`id_kelas`, `nama_kelas`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `kelas_mahasiswa`
+-- Table structure for table `kelas_matkul`
 --
 
-CREATE TABLE `kelas_mahasiswa` (
+CREATE TABLE `kelas_matkul` (
   `id_km` int(11) UNSIGNED NOT NULL,
   `id_kelas` int(11) UNSIGNED NOT NULL,
-  `id_semester` int(11) UNSIGNED NOT NULL,
+  `id_matkul` int(11) UNSIGNED NOT NULL,
+  `jadwal_mulai` int(11) UNSIGNED NOT NULL,
+  `jadwal_selesai` int(11) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `kelas_matkul`
+--
+
+INSERT INTO `kelas_matkul` (`id_km`, `id_kelas`, `id_matkul`, `jadwal_mulai`, `jadwal_selesai`) VALUES
+(1, 3, 1, 1655690400, 1655694000);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `kelas_matkul_mahasiswa`
+--
+
+CREATE TABLE `kelas_matkul_mahasiswa` (
+  `id_kmm` int(11) UNSIGNED NOT NULL,
+  `id_km` int(11) UNSIGNED NOT NULL,
   `id_mahasiswa` int(11) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `kelas_mahasiswa`
+-- Dumping data for table `kelas_matkul_mahasiswa`
 --
 
-INSERT INTO `kelas_mahasiswa` (`id_km`, `id_kelas`, `id_semester`, `id_mahasiswa`) VALUES
-(1, 3, 5, 12),
-(2, 3, 6, 14);
+INSERT INTO `kelas_matkul_mahasiswa` (`id_kmm`, `id_km`, `id_mahasiswa`) VALUES
+(1, 1, 14);
 
 -- --------------------------------------------------------
 
@@ -130,31 +149,10 @@ CREATE TABLE `mata_kuliah` (
 --
 
 INSERT INTO `mata_kuliah` (`id_matkul`, `id_semester`, `id_dosen`, `nama_matkul`, `sks`) VALUES
-(1, 5, 13, 'Matematika Diskrit', 3),
+(1, 2, 13, 'Matematika Diskrit', 3),
 (2, 5, 13, 'Pemrograman Web', 2),
 (3, 6, 13, 'Robotik', 3),
 (4, 6, 13, 'Mobile Application', 2);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `matkul_mahasiswa`
---
-
-CREATE TABLE `matkul_mahasiswa` (
-  `id_mm` int(11) UNSIGNED NOT NULL,
-  `id_matkul` int(11) UNSIGNED NOT NULL,
-  `id_mahasiswa` int(11) UNSIGNED NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `matkul_mahasiswa`
---
-
-INSERT INTO `matkul_mahasiswa` (`id_mm`, `id_matkul`, `id_mahasiswa`) VALUES
-(1, 1, 12),
-(2, 4, 14),
-(3, 3, 14);
 
 -- --------------------------------------------------------
 
@@ -255,7 +253,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `email`, `username`, `password`, `fullname`, `phone`, `company`, `gender`, `birth_date`, `home_address`, `avatar`, `last_login`, `uuid`, `ip_address`, `active`, `activation_selector`, `activation_code`, `forgotten_password_selector`, `forgotten_password_code`, `forgotten_password_time`, `remember_selector`, `remember_code`, `created_on`) VALUES
-(1, 'admin@absensi.test', 'administrator', '$argon2id$v=19$m=2048,t=1,p=1$eks4TEdMMWxtRzZna05GWA$A2wGpsXdQpYIMCSBhLxziD1bivndOf1wENiO5ndoSMM', 'Administrator', '085219842984', 'PT. Majapahit Teknologi Nusantara', NULL, NULL, NULL, '6cce0297bab361ef2e11af2c6fd3b4a9.jpg', 1656121121, '7c270c35-855b-528d-622f-9a3e2c04b177', '127.0.0.1', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1653917341),
+(1, 'admin@absensi.test', 'administrator', '$argon2id$v=19$m=2048,t=1,p=1$eks4TEdMMWxtRzZna05GWA$A2wGpsXdQpYIMCSBhLxziD1bivndOf1wENiO5ndoSMM', 'Administrator', '085219842984', 'PT. Majapahit Teknologi Nusantara', NULL, NULL, NULL, '6cce0297bab361ef2e11af2c6fd3b4a9.jpg', 1656220404, '7c270c35-855b-528d-622f-9a3e2c04b177', '127.0.0.1', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1653917341),
 (12, 'fauzan@zakir.com', '2138791232', '$argon2id$v=19$m=2048,t=1,p=1$NENablVQcVBjSFlYRTFGMQ$pPPwDq5m95GSgzb1CjGtn/ljo/ypet1V6Xr0fj+RmbY', 'Fauzan Zakir', '081231238189', '', NULL, NULL, NULL, NULL, 1656121141, '360c71a6-a22d-cf0c-dc17-44eb3a64d5ff', '127.0.0.1', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1655821402),
 (13, 'adam@arif.com', '324243223', '$argon2id$v=19$m=2048,t=1,p=1$b0w3TWNxVmpFUUxpdlAxbg$ej/WQ5L9PMFk/2rsPvWyLBHeKgW+a+cdDn/wM2ekfTU', 'Adam Arif', '081232478392', NULL, NULL, NULL, NULL, NULL, 1656120893, '538646e6-3aba-f1f9-7ad5-acf0e33930fb', '127.0.0.1', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1655831393),
 (14, 'toleudin@gmail.com', '4533132132', '$argon2id$v=19$m=2048,t=1,p=1$NHVFbHppYjJFcHAxTU9mbg$ebgfi8G03smYHevRRFUVU6z3+5NgqJrlpaUIlhFUbSI', 'Tole Udin', '0812432893423', NULL, NULL, NULL, NULL, NULL, NULL, '3d5c40c0-b5af-8708-7eef-0d68e49f85a5', '127.0.0.1', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1656098831);
@@ -322,13 +320,20 @@ ALTER TABLE `kelas`
   ADD PRIMARY KEY (`id_kelas`);
 
 --
--- Indexes for table `kelas_mahasiswa`
+-- Indexes for table `kelas_matkul`
 --
-ALTER TABLE `kelas_mahasiswa`
+ALTER TABLE `kelas_matkul`
   ADD PRIMARY KEY (`id_km`),
-  ADD KEY `id_semester` (`id_semester`),
-  ADD KEY `id_mahasiswa` (`id_mahasiswa`),
-  ADD KEY `id_kelas` (`id_kelas`);
+  ADD KEY `id_kelas` (`id_kelas`),
+  ADD KEY `id_matkul` (`id_matkul`);
+
+--
+-- Indexes for table `kelas_matkul_mahasiswa`
+--
+ALTER TABLE `kelas_matkul_mahasiswa`
+  ADD PRIMARY KEY (`id_kmm`),
+  ADD KEY `id_km` (`id_km`),
+  ADD KEY `id_mahasiswa` (`id_mahasiswa`);
 
 --
 -- Indexes for table `login_attempts`
@@ -344,14 +349,6 @@ ALTER TABLE `mata_kuliah`
   ADD KEY `user_id` (`id_dosen`),
   ADD KEY `id_dosen` (`id_dosen`),
   ADD KEY `id_semester` (`id_semester`);
-
---
--- Indexes for table `matkul_mahasiswa`
---
-ALTER TABLE `matkul_mahasiswa`
-  ADD PRIMARY KEY (`id_mm`),
-  ADD KEY `id_mahasiswa` (`id_mahasiswa`),
-  ADD KEY `id_matkul` (`id_matkul`);
 
 --
 -- Indexes for table `notification`
@@ -417,10 +414,16 @@ ALTER TABLE `kelas`
   MODIFY `id_kelas` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `kelas_mahasiswa`
+-- AUTO_INCREMENT for table `kelas_matkul`
 --
-ALTER TABLE `kelas_mahasiswa`
-  MODIFY `id_km` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+ALTER TABLE `kelas_matkul`
+  MODIFY `id_km` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `kelas_matkul_mahasiswa`
+--
+ALTER TABLE `kelas_matkul_mahasiswa`
+  MODIFY `id_kmm` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `login_attempts`
@@ -433,12 +436,6 @@ ALTER TABLE `login_attempts`
 --
 ALTER TABLE `mata_kuliah`
   MODIFY `id_matkul` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT for table `matkul_mahasiswa`
---
-ALTER TABLE `matkul_mahasiswa`
-  MODIFY `id_mm` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `notification`
@@ -482,12 +479,10 @@ ALTER TABLE `absensi`
   ADD CONSTRAINT `absensi_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`);
 
 --
--- Constraints for table `kelas_mahasiswa`
+-- Constraints for table `kelas_matkul_mahasiswa`
 --
-ALTER TABLE `kelas_mahasiswa`
-  ADD CONSTRAINT `kelas_mahasiswa_ibfk_1` FOREIGN KEY (`id_mahasiswa`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `kelas_mahasiswa_ibfk_2` FOREIGN KEY (`id_semester`) REFERENCES `semester` (`id_semester`),
-  ADD CONSTRAINT `kelas_mahasiswa_ibfk_3` FOREIGN KEY (`id_kelas`) REFERENCES `kelas` (`id_kelas`);
+ALTER TABLE `kelas_matkul_mahasiswa`
+  ADD CONSTRAINT `kelas_matkul_mahasiswa_ibfk_1` FOREIGN KEY (`id_mahasiswa`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `mata_kuliah`
@@ -495,13 +490,6 @@ ALTER TABLE `kelas_mahasiswa`
 ALTER TABLE `mata_kuliah`
   ADD CONSTRAINT `mata_kuliah_ibfk_1` FOREIGN KEY (`id_semester`) REFERENCES `semester` (`id_semester`),
   ADD CONSTRAINT `mata_kuliah_ibfk_2` FOREIGN KEY (`id_dosen`) REFERENCES `users` (`id`);
-
---
--- Constraints for table `matkul_mahasiswa`
---
-ALTER TABLE `matkul_mahasiswa`
-  ADD CONSTRAINT `matkul_mahasiswa_ibfk_1` FOREIGN KEY (`id_matkul`) REFERENCES `mata_kuliah` (`id_matkul`),
-  ADD CONSTRAINT `matkul_mahasiswa_ibfk_2` FOREIGN KEY (`id_mahasiswa`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `users_groups`

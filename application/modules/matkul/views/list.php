@@ -34,7 +34,6 @@
                       <th>Nama Mata Kuliah</th>
                       <th>SKS</th>
                       <th>Dosen</th>
-                      <th>Mahasiswa</th>
                       <th>Semester</th>
                       <th width="100" class="text-center">Action</th>
                   </tr>
@@ -46,7 +45,6 @@
                       <td><?php echo $data->nama_matkul; ?></td>
                       <td><?php echo $data->sks; ?></td>
                       <td><?php echo $data->fullname; ?></td>
-                      <td><a href="<?php echo base_url('matkul/mahasiswa/' . wah_encode($data->id_matkul)) ?>">Lihat Mahasiswa</a></td>
                       <td><?php echo $data->tahun . ' ' . $data->keterangan; ?></td>
                       <td class="text-center">
                         <div class="btn-group">

@@ -3,15 +3,15 @@
         <div class="card">
           <div class="card-header">
               <div class="card-title">
-                <a href="<?php echo base_url('matkul/mahasiswa/add/' . $this->uri->segment(3)); ?>" class="btn btn-sm btn-primary"><i class="fas fa-plus"></i> Add New</a>
+                <a href="<?php echo base_url('kelas/matkul/add/' . $this->uri->segment(3)); ?>" class="btn btn-sm btn-primary"><i class="fas fa-plus"></i> Add New</a>
                   <div class="btn-group">
                     <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Export</button>
                     <div class="dropdown-menu" role="menu" style="">
-                      <a class="dropdown-item" href="<?php echo base_url('matkul/mahasiswa/export_pdf'); ?>">PDF</a>
-                      <a class="dropdown-item" href="<?php echo base_url('matkul/mahasiswa/export_excel'); ?>">Excel</a>
+                      <a class="dropdown-item" href="<?php echo base_url('kelas/matkul/export_pdf'); ?>">PDF</a>
+                      <a class="dropdown-item" href="<?php echo base_url('kelas/matkul/export_excel'); ?>">Excel</a>
                     </div>
                   </div>
-              <?php echo $matkul->nama_matkul ?>
+                  <?php echo $kelas->nama_kelas ?>
               </div>
               <div class="card-tools w-25">
                   <form method="get">
@@ -32,9 +32,12 @@
               <thead>
                   <tr>
                       <th width="5">#</th>
-                      <th>Nama Mahasiswa</th>
                       <th>Mata Kuliah</th>
+                      <th>Kelas</th>
+                      <th>SKS</th>
+                      <th>Dosen</th>
                       <th>Semester</th>
+                      <th>Jadwal</th>
                       <th width="100" class="text-center">Action</th>
                   </tr>
               </thead>
@@ -42,15 +45,18 @@
                   <?php if(!empty($datas)): $i=1;foreach ($datas as $data): ?>
                   <tr>
                       <td><?php echo $i++; ?></td>
-                      <td><?php echo $data->fullname; ?></td>
                       <td><?php echo $data->nama_matkul; ?></td>
-                      <td><?php echo $matkul->tahun .' '. $matkul->keterangan; ?></td>
+                      <td><?php echo $data->nama_kelas; ?></td>
+                      <td><?php echo $data->sks; ?></td>
+                      <td><?php echo $data->fullname; ?></td>
+                      <td><?php echo $data->tahun . ' ' . $data->keterangan; ?></td>
+                      <td><?php echo hariIndo(date('l', $data->jadwal_mulai)) .', '. date('H:i', $data->jadwal_mulai) .'-'. date('H:i', $data->jadwal_selesai); ?></td>
                       <td class="text-center">
                         <div class="btn-group">
                           <a href="#" class="text-lg text-dark" data-toggle="dropdown" aria-expanded="true"><i class="fas fa-ellipsis"></i></a>
                           <div class="dropdown-menu" role="menu" style="">
-                            <a class="dropdown-item" href="<?php echo base_url('matkul/mahasiswa/edit/' . wah_encode($data->id_mm)); ?>">Edit</a>
-                            <a class="dropdown-item" data-toggle="confirmation" data-title="Are you sure want to delete?" data-placement="left" href="<?php echo base_url('matkul/mahasiswa/delete/' . wah_encode($data->id_mm)); ?>">Delete</a>
+                            <a class="dropdown-item" href="<?php echo base_url('kelas/matkul/edit/' . wah_encode($data->id_km)); ?>">Edit</a>
+                            <a class="dropdown-item" data-toggle="confirmation" data-title="Are you sure want to delete?" data-placement="left" href="<?php echo base_url('kelas/matkul/delete/' . wah_encode($data->id_km)); ?>">Delete</a>
                           </div>
                         </div>
                       </td>

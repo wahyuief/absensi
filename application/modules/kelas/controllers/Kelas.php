@@ -14,7 +14,6 @@ class Kelas extends BackendController {
 		$this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'ion_auth'), $this->config->item('error_end_delimiter', 'ion_auth'));
 		$this->lang->load('auth');
 		$this->load->model('kelas_model');
-		$this->load->model('km_model');
     }
 
 	public function index()
@@ -36,7 +35,7 @@ class Kelas extends BackendController {
 
 	public function add()
 	{
-		$this->form_validation->set_rules('nama_kelas', 'nama_kelas', 'trim|required');
+		$this->form_validation->set_rules('nama_kelas', 'nama kelas', 'trim|required');
 
 		if ($this->form_validation->run() === TRUE) {
 			$data = [
@@ -49,6 +48,7 @@ class Kelas extends BackendController {
 			redirect(base_url('kelas'), 'refresh');
 		} else {
 			$this->data['message'] = $this->_show_message('error', validation_errors());
+			$this->data['semester'] = $this->semester_model->get()->result();
 			$this->_render_page('kelas/add', $this->data);
 		}
 	}
@@ -77,6 +77,7 @@ class Kelas extends BackendController {
 			}
 		} else {
 			$this->data['message'] = $this->_show_message('error', validation_errors());
+			$this->data['semester'] = $this->semester_model->get()->result();
 			$this->data['data'] = $data;
 	
 			$this->_render_page('kelas/edit', $this->data);

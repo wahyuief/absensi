@@ -26,6 +26,18 @@
                         <p>Notification</p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="<?php echo base_url('absensi') ?>" class="nav-link <?php if ($this->uri->segment(1) === 'absensi') echo 'active'; ?>">
+                        <i class="nav-icon fas fa-calendar-check"></i>
+                        <p>Absensi</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="<?php echo base_url('absensi/rekap') ?>" class="nav-link <?php if ($this->uri->segment(1) === 'absensi' && $this->uri->segment(2) === 'rekap') echo 'active'; ?>">
+                        <i class="nav-icon fas fa-list-check"></i>
+                        <p>Rekap Absensi</p>
+                    </a>
+                </li>
                 <?php if(!$this->ion_auth->in_group('mahasiswa')): ?>
                 <li class="nav-header text-sm">MASTER DATA</li>
                 <?php if($this->ion_auth->is_admin()): ?>

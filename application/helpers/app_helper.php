@@ -113,3 +113,24 @@ function time_elapsed_string($datetime, $full = false) {
     if (!$full) $string = array_slice($string, 0, 1);
     return $string ? implode(', ', $string) . ' ago' : 'just now';
 }
+
+function hariIndo($hariInggris) {
+    switch ($hariInggris) {
+      case 'Sunday':
+        return 'Minggu';
+      case 'Monday':
+        return 'Senin';
+      case 'Tuesday':
+        return 'Selasa';
+      case 'Wednesday':
+        return 'Rabu';
+      case 'Thursday':
+        return 'Kamis';
+      case 'Friday':
+        return 'Jumat';
+      case 'Saturday':
+        return 'Sabtu';
+      default:
+        return '-';
+    }
+}
