@@ -455,7 +455,9 @@ $config['csrf_token_name'] = 'e82682a6-1fb3-4e49-a98a-6c6fb268a513';
 $config['csrf_cookie_name'] = 'c4ad75dd-072a-dbaa-7ffd-d090179623b8';
 $config['csrf_expire'] = 7200;
 $config['csrf_regenerate'] = TRUE;
-$config['csrf_exclude_uris'] = array();
+$config['csrf_exclude_uris'] = array(
+    'mahasiswa/foto/upload'
+);
 
 /*
 |--------------------------------------------------------------------------

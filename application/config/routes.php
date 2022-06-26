@@ -55,6 +55,10 @@ $route['logout'] = 'dashboard/logout';
 
 $route['kelas/matkul/(:any)'] = 'kelas/matkul/index/$1';
 $route['mahasiswa/matkul/(:any)'] = 'mahasiswa/matkul/index/$1';
+$route['mahasiswa/foto/upload'] = 'mahasiswa/foto/upload';
+$route['mahasiswa/foto/(:any)'] = 'mahasiswa/foto/index/$1';
+$route['dosen/foto/upload'] = 'dosen/foto/upload';
+$route['dosen/foto/(:any)'] = 'dosen/foto/index/$1';
 
 $route['default_controller'] = 'auth';
 $route['404_override'] = '';

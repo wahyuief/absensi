@@ -35,6 +35,7 @@
                       <th>Full Name</th>
                       <th>Email Address</th>
                       <th>Jadwal</th>
+                      <th>Foto Wajah</th>
                       <th>Status</th>
                       <th>Created</th>
                       <th width="100" class="text-center">Action</th>
@@ -48,6 +49,7 @@
                       <td><?php echo $user->fullname; ?></td>
                       <td><?php echo $user->email; ?></td>
                       <td><a href="<?php echo base_url('mahasiswa/matkul/' . wah_encode($user->id)); ?>">Lihat Jadwal</a></td>
+                      <td><a href="<?php echo base_url('mahasiswa/foto/' . wah_encode($user->id)); ?>">Lihat Foto Wajah</a></td>
                       <td><?php echo ($user->active) ? '<span class="badge bg-success">Active</span>' : '<span class="badge bg-danger">Inactive</span>'; ?></td>
                       <td><?php echo date('d M Y', $user->created_on); ?></td>
                       <td class="text-center">
