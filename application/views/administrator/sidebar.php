@@ -27,9 +27,9 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo base_url('absensi') ?>" class="nav-link <?php if ($this->uri->segment(1) === 'absensi') echo 'active'; ?>">
+                    <a href="<?php echo base_url('jadwal') ?>" class="nav-link <?php if ($this->uri->segment(1) === 'jadwal') echo 'active'; ?>">
                         <i class="nav-icon fas fa-calendar-check"></i>
-                        <p>Absensi</p>
+                        <p>Jadwal</p>
                     </a>
                 </li>
                 <li class="nav-item">

@@ -46,7 +46,7 @@ class Foto extends BackendController {
 
 		$data = [
 			'id_user' => $id_user,
-			'photo' => $this->base64_to_jpeg($this->input->post('foto'), $user->fullname, ($foto->num_rows()+1) . '.jpeg')
+			'photo' => $this->base64_to_jpeg($this->input->post('foto'), $user->fullname, ($foto->num_rows()+1) . '.jpg')
 		];
 		
 		if ($foto->num_rows() >= 50) {

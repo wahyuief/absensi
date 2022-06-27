@@ -4,7 +4,7 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Fpdf\Fpdf;
 
-class Absensi extends BackendController {
+class Jadwal extends BackendController {
 
     public function __construct()
     {
@@ -19,37 +19,43 @@ class Absensi extends BackendController {
 		$this->load->model('matkul_model');
     }
 
-	public function index($id)
+	public function index()
 	{
-		$id = wah_decode($id);
-		$matkul = $this->km_model->get(['kelas_matkul.id_matkul' => $id])->row();
-		$this->data['data'] = $this->kmm_model->get(['kelas_matkul_mahasiswa.id_km' => $matkul->id_km, 'kelas_matkul_mahasiswa.id_mahasiswa' => $this->session->userdata('user_id')])->row();
+		$id = $this->session->userdata('user_id');
+		$search = (input_get('nama_kelas') ? ['nama_kelas' => input_get('nama_kelas')] : false);
+		$this->data['total'] = $this->kmm_model->get(['kelas_matkul_mahasiswa.id_mahasiswa' => $id], $search)->num_rows();
+		$this->data['pagination'] = new \yidas\data\Pagination([
+			'perPageParam' => '',
+			'totalCount' => $this->data['total'],
+			'perPage' => 10,
+		]);
+		$this->data['start'] = ($this->data['total'] > 0 ? $this->data['pagination']->offset+1 : 0);
+		$this->data['end'] = ($this->data['total'] > 0 ? $this->kmm_model->get(['kelas_matkul_mahasiswa.id_mahasiswa' => $id], $search, $this->data['pagination']->limit, $this->data['pagination']->offset)->num_rows() : 0);
+		$this->data['datas'] = $this->kmm_model->get(['kelas_matkul_mahasiswa.id_mahasiswa' => $id], $search, $this->data['pagination']->limit, $this->data['pagination']->offset)->result();
+		$this->data['user'] = $this->ion_auth->where('id', $id)->users()->row();
 		$this->data['message'] = $this->_show_message();
-		$this->data['user'] = $this->ion_auth->user()->row();
 
-		$this->_render_page('absensi/absen', $this->data);
+		$this->_render_page('jadwal/list', $this->data);
 	}
 
-	public function upload()
+	public function add($id)
 	{
-		$user = $this->ion_auth->where('id', $id_user)->users()->row();
-		$absensi = $this->absensi_model->get(['absensi.id_matkul' => wah_decode(input_post('matkul')), 'absensi.id_user' => $this->session->userdata('user_id')]);
+		$this->form_validation->set_rules('matkul', 'matkul', 'trim|required');
 
-		$data = [
-			'id_matkul' => wah_decode(input_post('matkul')),
-			'id_user' => $this->session->userdata('user_id'),
-			'jadwal' => date('Y-m-d H:i:s'),
-			'keterangan' => 'Masuk'
-		];
-		
-		if ($absensi->num_rows() > 0) {
-			return false;
+		if ($this->form_validation->run() === TRUE) {
+			$data = [
+				'id_km' => input_post('matkul'),
+				'id_mahasiswa' => wah_decode($id),
+			];
 		}
-
-		if ($this->absensi_model->add($data)) {
-			echo json_encode(array(
-				'success' => true
-			));
+		
+		if ($this->form_validation->run() === TRUE && $this->kmm_model->add($data)) {
+			$this->_set_message('success', 'Data berhasil disimpan');
+			redirect(base_url('jadwal/' . $id), 'refresh');
+		} else {
+			$this->data['message'] = $this->_show_message('error', validation_errors());
+			$this->data['matkul'] = $this->km_model->get()->result();
+			$this->_render_page('jadwal/add', $this->data);
 		}
 	}
 	

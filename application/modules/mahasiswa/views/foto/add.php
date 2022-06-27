@@ -1,6 +1,13 @@
 <script src="<?php echo base_url('assets/facedetection/face-api.min.js') ?>"></script>
 <script defer src="<?php echo base_url('assets/facedetection/es6-promise.min.js') ?>"></script>
 <style>
+      #canvas {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+      }
       canvas {
             position: absolute;
       }
@@ -46,8 +53,7 @@
                               </div>
                         </div>
 
-
-                        <video id="video" width="100%" height="560" autoplay muted></video>
+                        <div id="canvas"><video id="video" width="720" height="560" autoplay muted></video></div>
 
                   </div>
                   <?php echo form_close();?>
@@ -75,7 +81,7 @@ function start() {
 
     video.addEventListener('play', async () => {
         const canvas = faceapi.createCanvasFromMedia(video)
-        document.body.append(canvas)
+        document.getElementById('canvas').append(canvas)
         const displaySize = { width: video.width, height: video.height }
         faceapi.matchDimensions(canvas, displaySize)
     })
@@ -96,7 +102,6 @@ const getFaceAndDescriptor = (canvas, type = 'base64') => {
         resizeToMax(canvas);
         const result = await faceapi.detectAllFaces(canvas, new faceapi.SsdMobilenetv1Options());
         if (!result) return reject(new Error('wajah tidak ditemukan'));
-        console.log(result.length);
         if (result.length > 1) {
           return reject(new Error(`Foto tidak valid, ${result.length} wajah ditemukan`));
         }
@@ -157,7 +162,7 @@ const getFaceAndDescriptor = (canvas, type = 'base64') => {
     });
 };
   
-function canvas2blob(can, type = 'image/jpeg', quality = 0.97) {
+function canvas2blob(can, type = 'image/jpeg', quality = 1) {
     return Promise.resolve().then(() => {
       if (!can) throw new Error('Empty canvas');
       return new Promise((resolve, reject) => {
@@ -166,7 +171,7 @@ function canvas2blob(can, type = 'image/jpeg', quality = 0.97) {
     });
   }
 
-function resizeToMax(can, max_size = 640) {
+function resizeToMax(can, max_size = 720) {
     if (!can || !can.width || !can.height) return;
     let { width } = can;
     let { height } = can;
@@ -207,7 +212,7 @@ function canvas2gray(c) {
 
 <script>
       $('#ambil').on('click', function(){
-            for (let index = 0; index < 50; index++) {
+            for (let index = 0; index <= 50; index++) {
                   try {
                         getFaceAndDescriptor(video).then((result)=>simpanfoto(result.thumbnail.b64))
                   } catch (error) {
