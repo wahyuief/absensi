@@ -14,7 +14,7 @@
     <div class="login-box">
         <div class="card card-outline card-primary">
             <div class="card-header text-center">
-                <a href="<?php echo base_url(); ?>" class="h1"><b>Base</b>igniter</a>
+                <a href="<?php echo base_url(); ?>" class="h1"><b>Face</b>Absensi</a>
             </div>
             <div class="card-body login-card-body">
                 <?php require_once $page . '.php'; ?>
