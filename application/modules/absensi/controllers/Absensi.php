@@ -23,7 +23,8 @@ class Absensi extends BackendController {
 	{
 		$id = wah_decode($id);
 		$matkul = $this->km_model->get(['kelas_matkul.id_matkul' => $id])->row();
-		$this->data['data'] = $this->kmm_model->get(['kelas_matkul_mahasiswa.id_km' => $matkul->id_km, 'kelas_matkul_mahasiswa.id_mahasiswa' => $this->session->userdata('user_id')])->row();
+		if ($this->ion_auth->in_group('mahasiswa')) $this->data['data'] = $this->kmm_model->get(['kelas_matkul_mahasiswa.id_km' => $matkul->id_km, 'kelas_matkul_mahasiswa.id_mahasiswa' => $this->session->userdata('user_id')])->row();
+		if ($this->ion_auth->in_group('dosen')) $this->data['data'] = $this->km_model->get(['kelas_matkul.id_matkul' => $id, 'mata_kuliah.id_dosen' => $this->session->userdata('user_id')])->row();
 		$this->data['message'] = $this->_show_message();
 		$this->data['user'] = $this->ion_auth->user()->row();
 
