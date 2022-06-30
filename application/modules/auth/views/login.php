@@ -38,8 +38,8 @@
         </div>
     </div>
 
-    <div class="text-center">
+    <!-- <div class="text-center">
         <p class="mb-0">Don't have an account? <a href="<?php echo base_url('auth/register'); ?>">Sign Up</a></p>
-    </div>
+    </div> -->
 </div>
 <?php echo form_close(); ?>
