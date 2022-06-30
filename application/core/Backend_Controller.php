@@ -27,7 +27,7 @@ class BackendController extends MY_Controller
     protected function _render_page($view, $data) {
 		$data['title'] = $this->config->item('site_title', 'ion_auth') . ($this->uri->segment(1) ? ' | ' . ucwords($this->uri->segment(1)) : '') . ($this->uri->segment(2) ?  ' - ' .ucwords($this->uri->segment(2)) : '');
 		$data['user_sess'] = $this->ion_auth->user()->row();
-		foreach ($this->ion_auth->get_users_groups($user->id)->result() as $group) {
+		foreach ($this->ion_auth->get_users_groups($data['user_sess']->id)->result() as $group) {
 			$group_name[] = $group->name;
 		}
 		$data['group_user_sess'] = $group_name;
