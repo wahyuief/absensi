@@ -39,7 +39,7 @@ class Absensi extends BackendController {
 		$data = [
 			'id_matkul' => wah_decode(input_post('matkul')),
 			'id_user' => $this->session->userdata('user_id'),
-			'jadwal' => date('Y-m-d H:i:s'),
+			'tanggal_absen' => date('Y-m-d H:i:s'),
 			'keterangan' => 'Masuk'
 		];
 		

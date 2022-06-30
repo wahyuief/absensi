@@ -100,7 +100,7 @@ const getFaceAndDescriptor = (canvas, type = 'base64') => {
           faces: [],
         };
         resizeToMax(canvas);
-        const result = await faceapi.detectAllFaces(canvas, new faceapi.SsdMobilenetv1Options());
+        const result = await faceapi.detectAllFaces(canvas, new faceapi.TinyFaceDetectorOptions());
         if (!result) return reject(new Error('wajah tidak ditemukan'));
         if (result.length > 1) {
           return reject(new Error(`Foto tidak valid, ${result.length} wajah ditemukan`));
