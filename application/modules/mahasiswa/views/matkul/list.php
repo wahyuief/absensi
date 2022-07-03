@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="card">
           <div class="card-header">
-              <div class="card-title">
+              <div class="card-title"><?php if(!$this->ion_auth->in_group('mahasiswa')): ?>
                 <a href="<?php echo base_url('mahasiswa/matkul/add/' . $this->uri->segment(3)); ?>" class="btn btn-sm btn-primary"><i class="fas fa-plus"></i> Add New</a>
                   <div class="btn-group">
                     <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Export</button>
@@ -10,7 +10,7 @@
                       <a class="dropdown-item" href="<?php echo base_url('mahasiswa/matkul/export_pdf'); ?>">PDF</a>
                       <a class="dropdown-item" href="<?php echo base_url('mahasiswa/matkul/export_excel'); ?>">Excel</a>
                     </div>
-                  </div>
+                  </div><?php endif; ?>
                   <?php echo $user->fullname ?>
               </div>
               <div class="card-tools w-25">
@@ -38,6 +38,7 @@
                       <th>Dosen</th>
                       <th>Semester</th>
                       <th>Jadwal</th>
+                      <th>Rekap Absen</th>
                       <th width="100" class="text-center">Action</th>
                   </tr>
               </thead>
@@ -51,6 +52,7 @@
                       <td><?php echo $data->fullname; ?></td>
                       <td><?php echo $data->tahun . ' ' . $data->keterangan; ?></td>
                       <td><?php echo hariIndo(date('l', $data->jadwal_mulai)) .', '. date('H:i', $data->jadwal_mulai) .'-'. date('H:i', $data->jadwal_selesai); ?></td>
+                      <td><a href="<?php echo base_url('mahasiswa/matkul/absensi/' . wah_encode($data->id_matkul)); ?>">Lihat Rekap Absen</a></td>
                       <td class="text-center">
                         <div class="btn-group">
                           <a href="#" class="text-lg text-dark" data-toggle="dropdown" aria-expanded="true"><i class="fas fa-ellipsis"></i></a>

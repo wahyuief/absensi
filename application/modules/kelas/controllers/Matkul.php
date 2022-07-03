@@ -158,6 +158,27 @@ class Matkul extends BackendController {
 		redirect(base_url('kelas/matkul'), 'refresh');
 	}
 
+	public function absensi($id_matkul)
+	{
+		$id_matkul = wah_decode($id_matkul);
+		$user_id = ($this->ion_auth->in_group('mahasiswa') ? $this->session->userdata('user_id') : false);
+		$this->data['total'] = $this->absensi_model->get(['absensi.id_matkul' => $id_matkul], $search)->num_rows();
+		if ($user_id) $this->data['total'] = $this->absensi_model->get(['absensi.id_user' => $user_id, 'absensi.id_matkul' => $id_matkul], $search)->num_rows();
+		$this->data['pagination'] = new \yidas\data\Pagination([
+			'perPageParam' => '',
+			'totalCount' => $this->data['total'],
+			'perPage' => 10,
+		]);
+		$this->data['message'] = $this->_show_message('error', validation_errors());
+		$this->data['matkul'] = $this->matkul_model->get(['id_matkul' => $id_matkul])->row();
+		$this->data['start'] = ($this->data['total'] > 0 ? $this->data['pagination']->offset+1 : 0);
+		$this->data['end'] = ($this->data['total'] > 0 ? $this->absensi_model->get(['absensi.id_matkul' => $id_matkul], $search, $this->data['pagination']->limit, $this->data['pagination']->offset)->num_rows() : 0);
+		if ($user_id) $this->data['end'] = ($this->data['total'] > 0 ? $this->absensi_model->get(['absensi.id_user' => $user_id, 'absensi.id_matkul' => $id_matkul], $search, $this->data['pagination']->limit, $this->data['pagination']->offset)->num_rows() : 0);
+		$this->data['datas'] = $this->absensi_model->get(['absensi.id_matkul' => $id_matkul])->result();
+		if ($user_id) $this->data['datas'] = $this->absensi_model->get(['absensi.id_user' => $user_id, 'absensi.id_matkul' => $id_matkul])->result();
+		$this->_render_page('kelas/rekap/list', $this->data);
+	}
+
 	public function export_excel()
 	{
 		$title = 'Export Kelas ' . date('d M Y');

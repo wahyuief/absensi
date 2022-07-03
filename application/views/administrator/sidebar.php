@@ -21,24 +21,19 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo base_url('notification') ?>" class="nav-link <?php if ($this->uri->segment(1) === 'notification') echo 'active'; ?>">
-                        <i class="nav-icon fas fa-bell"></i>
-                        <p>Notification</p>
-                    </a>
-                </li>
-                <li class="nav-item">
                     <a href="<?php echo base_url('jadwal') ?>" class="nav-link <?php if ($this->uri->segment(1) === 'jadwal') echo 'active'; ?>">
                         <i class="nav-icon fas fa-calendar-check"></i>
                         <p>Jadwal</p>
                     </a>
                 </li>
+                <?php if($this->ion_auth->in_group('mahasiswa')): ?>
                 <li class="nav-item">
-                    <a href="<?php echo base_url('kelas') ?>" class="nav-link <?php if ($this->uri->segment(1) === 'kelas') echo 'active'; ?>">
-                        <i class="nav-icon fas fa-building-user"></i>
-                        <p>Kelas</p>
+                    <a href="<?php echo base_url('mahasiswa/matkul') ?>" class="nav-link <?php if ($this->uri->segment(2) === 'matkul') echo 'active'; ?>">
+                        <i class="nav-icon fas fa-book-bookmark"></i>
+                        <p>Mata Kuliah</p>
                     </a>
                 </li>
-                <?php if(!$this->ion_auth->in_group('mahasiswa')): ?>
+                <?php endif;if(!$this->ion_auth->in_group('mahasiswa')): ?>
                 <li class="nav-header text-sm">MASTER DATA</li>
                 <?php if($this->ion_auth->is_admin()): ?>
                 <li class="nav-item">

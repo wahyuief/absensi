@@ -38,6 +38,7 @@
                       <th>Dosen</th>
                       <th>Semester</th>
                       <th>Jadwal</th>
+                      <th>Rekap Absen</th>
                       <th width="100" class="text-center">Action</th>
                   </tr>
               </thead>
@@ -51,6 +52,7 @@
                       <td><?php echo $data->fullname; ?></td>
                       <td><?php echo $data->tahun . ' ' . $data->keterangan; ?></td>
                       <td><?php echo hariIndo(date('l', $data->jadwal_mulai)) .', '. date('H:i', $data->jadwal_mulai) .'-'. date('H:i', $data->jadwal_selesai); ?></td>
+                      <td><a href="<?php echo base_url('kelas/matkul/absensi/' . wah_encode($data->id_matkul)); ?>">Lihat Rekap Absen</a></td>
                       <td class="text-center">
                         <div class="btn-group">
                           <a href="#" class="text-lg text-dark" data-toggle="dropdown" aria-expanded="true"><i class="fas fa-ellipsis"></i></a>
