@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="<?php echo base_url('assets/backend/plugins/select2/css/select2.min.css') ?>">
     <link rel="stylesheet" href="<?php echo base_url('assets/backend/css/adminlte.min.css') ?>">
     <script src="<?php echo base_url('assets/backend/plugins/jquery/jquery.min.js') ?>"></script>
+    <script>var base_url = '<?php echo base_url(); ?>';</script>
 </head>
 <body class="layout-navbar-fixed layout-footer-fixed layout-fixed sidebar-mini">
     <div class="wrapper">

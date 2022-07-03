@@ -1,5 +1,13 @@
 <section class="content">
     <div class="container-fluid">
+        <?php if(!pendaftaran_wajah_check()): ?>
+        <div class="alert alert-warning">
+            <i class="fas fa-warning"></i> Anda belum melakukan pendaftaran wajah! Silakan lakukan pendaftaran wajah.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <?php endif; ?>
         <div class="row">
             <div class="col-md-3">
                 <div class="card card-primary card-outline">
@@ -30,8 +38,8 @@
                             </li>
                         </ul>
                     </div>
-
                 </div>
+                <a href="<?php echo base_url('profile/foto') ?>" class="btn btn-primary w-100"><i class="fas fa-plus"></i> Pendaftaran Wajah</a>
             </div>
             <div class="col-md-9">
                 <div class="card card-primary card-outline card-outline-tabs">

@@ -8,6 +8,7 @@ class BackendController extends MY_Controller
     {
         parent::__construct();
         $CI =& get_instance();
+		if (!pendaftaran_wajah_check() && $this->uri->segment(1) !== 'profile' && !$this->ion_auth->is_admin() && $this->uri->segment(1) !== 'logout') redirect(base_url('profile'));
     }
 
     protected function _get_csrf_nonce() {

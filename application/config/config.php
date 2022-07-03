@@ -458,6 +458,7 @@ $config['csrf_regenerate'] = TRUE;
 $config['csrf_exclude_uris'] = array(
     'mahasiswa/foto/upload',
     'dosen/foto/upload',
+    'profile/foto/upload',
     'absensi/upload'
 );
 

@@ -11,9 +11,9 @@ class Foto extends BackendController {
 		$this->load->model('foto_model');
     }
 
-	public function index($id)
+	public function index()
 	{
-		$id = wah_decode($id);
+		$id = $this->session->userdata('user_id');
 		$search = (input_get('nama_kelas') ? ['nama_kelas' => input_get('nama_kelas')] : false);
 		$this->data['total'] = $this->foto_model->get(['users_photos.id_user' => $id], $search)->num_rows();
 		$this->data['pagination'] = new \yidas\data\Pagination([
@@ -27,30 +27,31 @@ class Foto extends BackendController {
 		$this->data['user'] = $this->ion_auth->where('id', $id)->users()->row();
 		$this->data['message'] = $this->_show_message();
 
-		$this->_render_page('mahasiswa/foto/list', $this->data);
+		$this->_render_page('profile/foto/list', $this->data);
 	}
 
-	public function add($id)
+	public function add()
 	{
+		$id = $this->session->userdata('user_id');
 		$this->data['message'] = $this->_show_message('error', validation_errors());
-		$this->data['foto'] = $this->foto_model->get(['id_user' => wah_decode($id)])->result();
-		$this->data['user'] = $this->ion_auth->where('id', wah_decode($id))->users()->row();
-		$this->_render_page('mahasiswa/foto/add', $this->data);
+		$this->data['foto'] = $this->foto_model->get(['id_user' => $id])->result();
+		$this->data['user'] = $this->ion_auth->where('id', $id)->users()->row();
+		$this->_render_page('profile/foto/add', $this->data);
 	}
 
 	public function upload()
 	{
-		$id_user = wah_decode(input_post('user'));
+		$id_user = $this->session->userdata('user_id');
 		$user = $this->ion_auth->where('id', $id_user)->users()->row();
-		$foto = $this->foto_model->get(['id_user' => $user->id]);
+		$foto = $this->foto_model->get(['id_user' => $id_user]);
 
 		$data = [
 			'id_user' => $id_user,
 			'photo' => $this->base64_to_jpeg($this->input->post('foto'), $user->fullname, ($foto->num_rows()+1) . '.jpg')
 		];
 		
-		if ($foto->num_rows() >= 50) {
-			return false;
+		if ($foto->num_rows() >= 55) {
+			$this->foto_model->unset(['id_user' => $id_user]);
 		}
 
 		if ($this->foto_model->add($data)) {

@@ -51,3 +51,11 @@ function notif_delete($id) {
     }
     return $delete;
 }
+
+function pendaftaran_wajah_check() {
+    $ci = &get_instance();
+    $id = $ci->session->userdata('user_id');
+    $query = $ci->db->get_where('users_photos', array('id_user' => $id));
+    if ($query->num_rows() > 1) return true;
+    return false;
+}
