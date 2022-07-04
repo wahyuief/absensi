@@ -117,7 +117,8 @@ function start() {
             faceapi.draw.drawFaceLandmarks(canvas, resizedDetections)
             faceapi.draw.drawFaceExpressions(canvas, resizedDetections)
             results.forEach((result, i) => {
-                if (i > 0) {
+                var check = result.toString().match(/\((.*?)\)/)[1];
+                if (check % 1 >= 0.1) {
                   simpanabsen(result.toString());
                 }
                 const box = resizedDetections[i].detection.box
@@ -133,7 +134,7 @@ function loadLabeledImages() {
     return Promise.all(
         labels.map(async label => {
             const descriptions = []
-            for (let i = 1; i <= 50; i++) {
+            for (let i = 1; i <= <?php echo $photos ?>; i++) {
                 const img = await faceapi.fetchImage('/assets/facedetection/images/'+`${label}/${i}.jpg`)
                 const detections = await faceapi.detectSingleFace(img).withFaceLandmarks(true).withFaceDescriptor()
                 try {

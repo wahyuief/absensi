@@ -17,6 +17,7 @@ class Absensi extends BackendController {
 		$this->load->model('kelas_model');
 		$this->load->model('semester_model');
 		$this->load->model('matkul_model');
+		$this->load->model('foto_model');
     }
 
 	public function index($id)
@@ -27,6 +28,7 @@ class Absensi extends BackendController {
 		if ($this->ion_auth->in_group('dosen')) $this->data['data'] = $this->km_model->get(['kelas_matkul.id_matkul' => $id, 'mata_kuliah.id_dosen' => $this->session->userdata('user_id')])->row();
 		$this->data['message'] = $this->_show_message();
 		$this->data['user'] = $this->ion_auth->user()->row();
+		$this->data['photos'] = $this->foto_model->get(['id_user' => $this->session->userdata('user_id')])->num_rows();
 
 		$this->_render_page('absensi/absen', $this->data);
 	}
