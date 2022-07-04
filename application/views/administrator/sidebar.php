@@ -20,13 +20,14 @@
                         <p>Dashboard</p>
                     </a>
                 </li>
+                <?php if(!$this->ion_auth->is_admin()): ?>
                 <li class="nav-item">
                     <a href="<?php echo base_url('jadwal') ?>" class="nav-link <?php if ($this->uri->segment(1) === 'jadwal') echo 'active'; ?>">
                         <i class="nav-icon fas fa-calendar-check"></i>
                         <p>Jadwal</p>
                     </a>
                 </li>
-                <?php if($this->ion_auth->in_group('mahasiswa')): ?>
+                <?php endif;if($this->ion_auth->in_group('mahasiswa')): ?>
                 <li class="nav-item">
                     <a href="<?php echo base_url('mahasiswa/matkul') ?>" class="nav-link <?php if ($this->uri->segment(2) === 'matkul') echo 'active'; ?>">
                         <i class="nav-icon fas fa-book-bookmark"></i>

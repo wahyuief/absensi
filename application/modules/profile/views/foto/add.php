@@ -61,7 +61,7 @@
                         <div class="row mb-3">
                               <label for="ambil" class="col-sm-2 form-label wahlabel"></label>
                               <div class="col-sm-8">
-                                    <input type="button" id="ambil" class="form-control btn btn-primary" value="Ambil Foto">
+                                    <input type="button" id="ambil" class="form-control btn btn-primary" value="<?php if(!$foto): ?>Ambil Foto<?php else: ?>Perbaharui Wajah<?php endif; ?>">
                               </div>
                         </div>
 

@@ -58,7 +58,7 @@
                           <a href="#" class="text-lg text-dark" data-toggle="dropdown" aria-expanded="true"><i class="fas fa-ellipsis"></i></a>
                           <div class="dropdown-menu" role="menu" style="">
                             <a class="dropdown-item" href="<?php echo base_url('mahasiswa/matkul/edit/' . wah_encode($data->id_km)); ?>">Edit</a>
-                            <a class="dropdown-item" data-toggle="confirmation" data-title="Are you sure want to delete?" data-placement="left" href="<?php echo base_url('mahasiswa/matkul/delete/' . wah_encode($data->id_km)); ?>">Delete</a>
+                            <a class="dropdown-item" data-toggle="confirmation" data-title="Are you sure want to delete?" data-placement="left" href="<?php echo base_url('mahasiswa/matkul/delete/' . wah_encode($data->id_kmm)); ?>">Delete</a>
                           </div>
                         </div>
                       </td>

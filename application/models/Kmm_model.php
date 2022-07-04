@@ -12,11 +12,11 @@ class Kmm_model extends CI_Model
         if($like) $this->db->like($like);
         if($limit && $offset) $this->db->limit($limit, $offset);
         if($order_by) $this->db->order_by($order_by);
-        $this->db->join('kelas_matkul', 'kelas_matkul_mahasiswa.id_km = kelas_matkul.id_km');
-        $this->db->join('kelas', 'kelas_matkul.id_kelas = kelas.id_kelas');
-        $this->db->join('mata_kuliah', 'kelas_matkul.id_matkul = mata_kuliah.id_matkul');
-        $this->db->join('users', 'mata_kuliah.id_dosen = users.id');
-        $this->db->join('semester', 'mata_kuliah.id_semester = semester.id_semester');
+        $this->db->join('kelas_matkul', 'kelas_matkul_mahasiswa.id_km = kelas_matkul.id_km', 'LEFT');
+        $this->db->join('kelas', 'kelas_matkul.id_kelas = kelas.id_kelas', 'LEFT');
+        $this->db->join('mata_kuliah', 'kelas_matkul.id_matkul = mata_kuliah.id_matkul', 'LEFT');
+        $this->db->join('users', 'mata_kuliah.id_dosen = users.id', 'LEFT');
+        $this->db->join('semester', 'mata_kuliah.id_semester = semester.id_semester', 'LEFT');
         $query = $this->db->get($this->table);
         return $query;
     }

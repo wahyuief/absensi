@@ -10,7 +10,7 @@
                                     <select name="matkul" id="matkul" class="form-control" required>
                                           <option value="" disabled selected>Pilih Mata Kuliah</option>
                                           <?php foreach($matkul as $mk): ?>
-                                                <option value="<?php echo $mk->id_matkul ?>"><?php echo $mk->nama_matkul ?></option>
+                                                <option value="<?php echo $mk->id_km ?>"><?php echo $mk->nama_matkul . ' | ' . $mk->nama_kelas . ' | ' . $mk->fullname . ' | ' . $mk->tahun . ' ' . $mk->keterangan . ' | ' . hariIndo(date('l', $mk->jadwal_mulai)) .', '. date('H:i', $mk->jadwal_mulai) .'-'. date('H:i', $mk->jadwal_selesai) ?></option>
                                           <?php endforeach; ?>
                                     </select>
                                     <div class="input-group-append">
@@ -22,7 +22,7 @@
                   </div>
                   <div class="card-footer border-top">
                         <button type="submit" class="btn btn-sm btn-primary"><i class="fas fa-save mr-2"></i>Save</button>
-                        <a href="<?php echo base_url('kelas/matkul/' . $this->uri->segment(4)) ?>" class="btn btn-sm btn-default">Back</a>
+                        <a href="<?php echo base_url('mahasiswa/matkul/' . $this->uri->segment(4)) ?>" class="btn btn-sm btn-default">Back</a>
                   </div>
                   <?php echo form_close();?>
             </div>

@@ -114,7 +114,9 @@ function start() {
             faceapi.draw.drawFaceLandmarks(canvas, resizedDetections)
             faceapi.draw.drawFaceExpressions(canvas, resizedDetections)
             results.forEach((result, i) => {
-                simpanabsen(result.toString());
+                if (i > 0) {
+                  simpanabsen(result.toString());
+                }
                 const box = resizedDetections[i].detection.box
                 const drawBox = new faceapi.draw.DrawBox(box, { label: result.toString() })
                 drawBox.draw(canvas)

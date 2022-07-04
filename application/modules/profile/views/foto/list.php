@@ -3,7 +3,7 @@
         <div class="card">
           <div class="card-header">
               <div class="card-title">
-                <a href="<?php echo base_url('profile/foto/add'); ?>" class="btn btn-sm btn-primary"><i class="fas fa-plus"></i> Add New</a>
+                <a href="<?php echo base_url('profile/foto/add'); ?>" class="btn btn-sm btn-primary"><i class="fas fa-plus"></i> <?php if(empty($datas)): ?>Add New<?php else: ?>Perbaharui Wajah<?php endif; ?></a>
                   <?php echo $user->fullname ?>
               </div>
               <div class="card-tools w-25">

@@ -96,8 +96,8 @@ class Matkul extends BackendController {
 		$data = $this->kmm_model->get(['id_kmm' => wah_decode($id)]);
 		if (!$data->num_rows()) redirect(base_url('kelas'), 'refresh');
 
-		if ($this->km_model->unset(['id_kmm' => $data->row()->id_kmm])) $this->_set_message('success', 'Data berhasil dihapus');
-		redirect(base_url('mahasiswa/matkul'), 'refresh');
+		if ($this->kmm_model->unset(['id_kmm' => $data->row()->id_kmm])) $this->_set_message('success', 'Data berhasil dihapus');
+		redirect(base_url('mahasiswa/matkul/' . wah_encode($data->row()->id_mahasiswa)), 'refresh');
 	}
 
 	public function absensi($id_matkul)
