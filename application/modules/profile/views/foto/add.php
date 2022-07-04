@@ -73,7 +73,10 @@
       </div>
 </div>
 <script defer>
-const video = document.getElementById('video')
+const video = document.getElementById('video');
+video.setAttribute('autoplay', '');
+video.setAttribute('muted', '');
+video.setAttribute('playsinline', '');
 
 Promise.all([
   faceapi.nets.tinyFaceDetector.loadFromUri('/assets/facedetection/models'),
