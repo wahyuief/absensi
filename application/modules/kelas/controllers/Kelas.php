@@ -14,6 +14,7 @@ class Kelas extends BackendController {
 		$this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'ion_auth'), $this->config->item('error_end_delimiter', 'ion_auth'));
 		$this->lang->load('auth');
 		$this->load->model('kelas_model');
+		$this->load->model('semester_model');
     }
 
 	public function index()
