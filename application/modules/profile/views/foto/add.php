@@ -248,9 +248,9 @@ function canvas2gray(c) {
       $('#ambil').on('click', function(){
             $('#ambil').val('Proses..');
             document.getElementById("ambil").disabled = true;
-            for (let index = 0; index <= 50; index++) {
+            for (let index = 1; index <= 50; index++) {
                   try {
-                        getFaceAndDescriptor(video).then((result)=>simpanfoto(result.thumbnail.b64))
+                        getFaceAndDescriptor(video).then((result)=>simpanfoto(result.thumbnail.b64, index))
                   } catch (error) {
                         console.log(error)
                         alert('Pendaftaran wajah gagal, silakan coba lagi');
@@ -259,11 +259,11 @@ function canvas2gray(c) {
             }
       })
 
-      function simpanfoto(str) {
+      function simpanfoto(str, index) {
             var user = $('#iduser').val()
             $.ajax({
                   type: "POST",
-                  data: {user:user,foto:str},
+                  data: {user:user,foto:str,index:index},
                   url: "<?php echo base_url('profile/foto/upload') ?>",
                   success: function(data){
                         $('#ambil').val('Ambil Foto');
