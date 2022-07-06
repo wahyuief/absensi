@@ -38,8 +38,8 @@
                       <th>Dosen</th>
                       <th>Semester</th>
                       <th>Jadwal</th>
-                      <th>Rekap Absen</th>
-                      <th width="100" class="text-center">Action</th>
+                      <th>Rekap Absen</th><?php if(!$this->ion_auth->in_group('mahasiswa')): ?>
+                      <th width="100" class="text-center">Action</th><?php endif; ?>
                   </tr>
               </thead>
               <tbody>
@@ -53,7 +53,7 @@
                       <td><?php echo $data->tahun . ' ' . $data->keterangan; ?></td>
                       <td><?php echo hariIndo(date('l', $data->jadwal_mulai)) .', '. date('H:i', $data->jadwal_mulai) .'-'. date('H:i', $data->jadwal_selesai); ?></td>
                       <td><a href="<?php echo base_url('mahasiswa/matkul/absensi/' . wah_encode($data->id_matkul)); ?>">Lihat Rekap Absen</a></td>
-                      <td class="text-center">
+                      <?php if(!$this->ion_auth->in_group('mahasiswa')): ?><td class="text-center">
                         <div class="btn-group">
                           <a href="#" class="text-lg text-dark" data-toggle="dropdown" aria-expanded="true"><i class="fas fa-ellipsis"></i></a>
                           <div class="dropdown-menu" role="menu" style="">
@@ -61,7 +61,7 @@
                             <a class="dropdown-item" data-toggle="confirmation" data-title="Are you sure want to delete?" data-placement="left" href="<?php echo base_url('mahasiswa/matkul/delete/' . wah_encode($data->id_kmm)); ?>">Delete</a>
                           </div>
                         </div>
-                      </td>
+                      </td><?php endif; ?>
                   </tr>
                   <?php endforeach;else: ?>
                   <tr>
