@@ -36,14 +36,14 @@
               <tbody>
                   <?php if(!empty($datas)): $i=1;foreach ($datas as $data): ?>
                   <tr>
-                      <td><?php echo $i++; ?></td>
+                      <td><?php echo $i++;echo $this->absensi_model->get(['absensi.id_matkul' => $data->id_matkul, 'DAYNAME(tanggal_absen)' => date('l'), 'id_user' => $this->session->userdata('user_id')])->num_rows(); ?></td>
                       <td><?php echo $data->nama_matkul; ?></td>
                       <td><?php echo $data->nama_kelas; ?></td>
                       <td><?php echo $data->sks; ?></td>
                       <td><?php echo $data->fullname; ?></td>
                       <td><?php echo $data->tahun . ' ' . $data->keterangan; ?></td>
                       <td><?php echo hariIndo(date('l', $data->jadwal_mulai)) .', '. date('H:i', $data->jadwal_mulai) .'-'. date('H:i', $data->jadwal_selesai); ?></td>
-                      <td class="text-center"><?php if(!$this->absensi_model->get(['absensi.id_matkul' => $data->id_matkul, 'id_user' => $this->session->userdata('user_id')])->num_rows()): ?><a href="<?php echo base_url('jadwal/absensi/'.wah_encode($data->id_matkul)); ?>" class="btn btn-sm btn-primary">Mulai Absen</a><?php else: ?>Sudah Absen<?php endif; ?></td>
+                      <td class="text-center"><?php if(!$this->absensi_model->get(['absensi.id_matkul' => $data->id_matkul, 'DAYNAME(tanggal_absen)' => date('l'), 'id_user' => $this->session->userdata('user_id')])->num_rows()): ?><a href="<?php echo base_url('jadwal/absensi/'.wah_encode($data->id_matkul)); ?>" class="btn btn-sm btn-primary">Mulai Absen</a><?php else: ?>Sudah Absen<?php endif; ?></td>
                   </tr>
                   <?php endforeach;else: ?>
                   <tr>

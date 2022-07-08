@@ -66,7 +66,7 @@
                         <div class="row mb-3">
                               <label for="status" class="col-sm-2 form-label wahlabel">Status</label>
                               <div class="col-sm-8 input-group">
-                                    <input type="text" id="status" class="form-control" value="<?php echo ($this->absensi_model->get(['absensi.id_matkul' => $data->id_matkul, 'id_user' => $this->session->userdata('user_id')])->num_rows() > 0 ? 'Sudah Absen' : 'Belum Absen'); ?>" readonly required>
+                                    <input type="text" id="status" class="form-control" value="<?php echo ($this->absensi_model->get(['absensi.id_matkul' => $data->id_matkul, 'DAYNAME(tanggal_absen)' => date('l'), 'id_user' => $this->session->userdata('user_id')])->num_rows() > 0 ? 'Sudah Absen' : 'Belum Absen'); ?>" readonly required>
                                     <div class="input-group-append">
                                           <div class="input-group-text"><i class="fas fa-user"></i></div>
                                     </div>
