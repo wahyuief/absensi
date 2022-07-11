@@ -81,9 +81,6 @@
 </div>
 <script defer>
 const video = document.getElementById('video');
-video.setAttribute('autoplay', '');
-video.setAttribute('muted', '');
-video.setAttribute('playsinline', '');
 
 Promise.all([
   faceapi.nets.tinyFaceDetector.loadFromUri('/assets/facedetection/models'),
@@ -96,7 +93,7 @@ Promise.all([
 
 function start() {
     navigator.getUserMedia(
-        { audio: false, video: {facingMode: 'user'} },
+        { video: {} },
         stream => video.srcObject = stream,
         err => console.error(err)
     )
@@ -117,8 +114,8 @@ function start() {
             faceapi.draw.drawFaceLandmarks(canvas, resizedDetections)
             faceapi.draw.drawFaceExpressions(canvas, resizedDetections)
             results.forEach((result, i) => {
-                var check = result.toString().match(/\((.*?)\)/)[1];
-                if (check % 1 >= 0.1) {
+                var check = result.toString().split(' (');
+                if (check[0] == '<?php echo $user->fullname ?>') {
                   simpanabsen(result.toString());
                 }
                 const box = resizedDetections[i].detection.box
@@ -130,18 +127,14 @@ function start() {
 }
 
 function loadLabeledImages() {
-    const labels = ['<?php echo $user->fullname ?>'] 
+    const labels = ['<?php echo $user->fullname ?>'];
     return Promise.all(
         labels.map(async label => {
             const descriptions = []
             for (let i = 1; i <= <?php echo $photos ?>; i++) {
-                const img = await faceapi.fetchImage('/assets/facedetection/images/'+`${label}/${i}.jpg`)
-                const detections = await faceapi.detectSingleFace(img).withFaceLandmarks(true).withFaceDescriptor()
-                try {
+                  const img = await faceapi.fetchImage('/assets/facedetection/images/'+`${label}/${i}.jpg`)
+                  const detections = await faceapi.detectSingleFace(img).withFaceLandmarks(true).withFaceDescriptor()
                   descriptions.push(detections.descriptor)
-                } catch (error) {
-                  console.log(error)
-                }
             }
 
             return new faceapi.LabeledFaceDescriptors(label, descriptions)

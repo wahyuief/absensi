@@ -35,7 +35,7 @@ class Absensi extends BackendController {
 
 	public function upload()
 	{
-		$user = $this->ion_auth->where('id', $id_user)->users()->row();
+		$user = $this->ion_auth->where('fullname', input_post('name'))->user()->row();
 		$absensi = $this->absensi_model->get(['absensi.id_matkul' => wah_decode(input_post('matkul')), 'DAYNAME(tanggal_absen)' => date('l'), 'DATE(tanggal_absen)' => date('Y-m-d'), 'absensi.id_user' => $this->session->userdata('user_id')]);
 
 		$data = [
