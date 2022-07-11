@@ -100,12 +100,11 @@ class Matkul extends BackendController {
 		redirect(base_url('mahasiswa/matkul/' . wah_encode($data->row()->id_mahasiswa)), 'refresh');
 	}
 
-	public function absensi($id_matkul)
+	public function absensi($id_matkul, $id_mahasiswa)
 	{
 		$id_matkul = wah_decode($id_matkul);
-		$user_id = ($this->ion_auth->in_group('mahasiswa') ? $this->session->userdata('user_id') : false);
-		$this->data['total'] = $this->absensi_model->get(['absensi.id_matkul' => $id_matkul], $search)->num_rows();
-		if ($user_id) $this->data['total'] = $this->absensi_model->get(['absensi.id_user' => $user_id, 'absensi.id_matkul' => $id_matkul], $search)->num_rows();
+		$id_mahasiswa = wah_decode($id_mahasiswa);
+		$this->data['total'] = $this->absensi_model->get(['absensi.id_user' => $id_mahasiswa, 'absensi.id_matkul' => $id_matkul], $search)->num_rows();
 		$this->data['pagination'] = new \yidas\data\Pagination([
 			'perPageParam' => '',
 			'totalCount' => $this->data['total'],
@@ -114,19 +113,16 @@ class Matkul extends BackendController {
 		$this->data['message'] = $this->_show_message('error', validation_errors());
 		$this->data['matkul'] = $this->matkul_model->get(['id_matkul' => $id_matkul])->row();
 		$this->data['start'] = ($this->data['total'] > 0 ? $this->data['pagination']->offset+1 : 0);
-		$this->data['end'] = ($this->data['total'] > 0 ? $this->absensi_model->get(['absensi.id_matkul' => $id_matkul], $search, $this->data['pagination']->limit, $this->data['pagination']->offset)->num_rows() : 0);
-		if ($user_id) $this->data['end'] = ($this->data['total'] > 0 ? $this->absensi_model->get(['absensi.id_user' => $user_id, 'absensi.id_matkul' => $id_matkul], $search, $this->data['pagination']->limit, $this->data['pagination']->offset)->num_rows() : 0);
-		$this->data['datas'] = $this->absensi_model->get(['absensi.id_matkul' => $id_matkul])->result();
-		if ($user_id) $this->data['datas'] = $this->absensi_model->get(['absensi.id_user' => $user_id, 'absensi.id_matkul' => $id_matkul])->result();
+		$this->data['end'] = ($this->data['total'] > 0 ? $this->absensi_model->get(['absensi.id_user' => $id_mahasiswa, 'absensi.id_matkul' => $id_matkul], $search, $this->data['pagination']->limit, $this->data['pagination']->offset)->num_rows() : 0);
+		$this->data['datas'] = $this->absensi_model->get(['absensi.id_user' => $id_mahasiswa, 'absensi.id_matkul' => $id_matkul])->result();
 		$this->_render_page('mahasiswa/rekap/list', $this->data);
 	}
 
-	public function export_excel($id_matkul)
+	public function export_excel($id_matkul, $id_mahasiswa)
 	{
 		$id_matkul = wah_decode($id_matkul);
-		$user_id = ($this->ion_auth->in_group('mahasiswa') ? $this->session->userdata('user_id') : false);
-		$datas = $this->absensi_model->get(['absensi.id_matkul' => $id_matkul], $search)->result();
-		if ($user_id) $datas = $this->absensi_model->get(['absensi.id_user' => $user_id, 'absensi.id_matkul' => $id_matkul], $search)->result();
+		$id_mahasiswa = wah_decode($id_mahasiswa);
+		$datas = $this->absensi_model->get(['absensi.id_user' => $id_mahasiswa, 'absensi.id_matkul' => $id_matkul], $search)->result();
 		$title = 'Export Rekap ' . date('d M Y');
 
 		$spreadsheet = new Spreadsheet();
@@ -157,13 +153,12 @@ class Matkul extends BackendController {
 		$writer->save('php://output');
 	}
 
-	public function export_pdf($id_matkul)
+	public function export_pdf($id_matkul, $id_mahasiswa)
 	{
 		$title = 'Export Rekap ' . date('d M Y');
 		$id_matkul = wah_decode($id_matkul);
-		$user_id = ($this->ion_auth->in_group('mahasiswa') ? $this->session->userdata('user_id') : false);
-		$datas = $this->absensi_model->get(['absensi.id_matkul' => $id_matkul], $search)->result();
-		if ($user_id) $datas = $this->absensi_model->get(['absensi.id_user' => $user_id, 'absensi.id_matkul' => $id_matkul], $search)->result();
+		$id_mahasiswa = wah_decode($id_mahasiswa);
+		$datas = $this->absensi_model->get(['absensi.id_user' => $id_mahasiswa, 'absensi.id_matkul' => $id_matkul], $search)->result();
 
 		$pdf = new Fpdf();
 		$headers = array('Nama Mahasiswa', 'Tanggal Absen', 'Keterangan');

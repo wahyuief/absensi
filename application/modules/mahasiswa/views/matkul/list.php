@@ -46,7 +46,7 @@
                       <td><?php echo $data->fullname; ?></td>
                       <td><?php echo $data->tahun . ' ' . $data->keterangan; ?></td>
                       <td><?php echo hariIndo(date('l', $data->jadwal_mulai)) .', '. date('H:i', $data->jadwal_mulai) .'-'. date('H:i', $data->jadwal_selesai); ?></td>
-                      <td><a href="<?php echo base_url('mahasiswa/matkul/absensi/' . wah_encode($data->id_matkul)); ?>">Lihat Rekap Absen</a></td>
+                      <td><a href="<?php echo base_url('mahasiswa/matkul/absensi/' . wah_encode($data->id_matkul) . '/' . wah_encode($data->id_mahasiswa)); ?>">Lihat Rekap Absen</a></td>
                       <?php if(!$this->ion_auth->in_group('mahasiswa')): ?><td class="text-center">
                         <div class="btn-group">
                           <a href="#" class="text-lg text-dark" data-toggle="dropdown" aria-expanded="true"><i class="fas fa-ellipsis"></i></a>

@@ -179,23 +179,30 @@ class Matkul extends BackendController {
 		$this->_render_page('kelas/rekap/list', $this->data);
 	}
 
-	public function export_excel()
+	public function export_excel($id_matkul)
 	{
-		$title = 'Export Kelas ' . date('d M Y');
-		$datas = $this->km_model->get()->result();
+		$id_matkul = wah_decode($id_matkul);
+		$user_id = ($this->ion_auth->in_group('mahasiswa') ? $this->session->userdata('user_id') : false);
+		$datas = $this->absensi_model->get(['absensi.id_matkul' => $id_matkul], $search)->result();
+		if ($user_id) $datas = $this->absensi_model->get(['absensi.id_user' => $user_id, 'absensi.id_matkul' => $id_matkul], $search)->result();
+		$title = 'Export Rekap ' . date('d M Y');
 
 		$spreadsheet = new Spreadsheet();
-		foreach(range('A','F') as $columnID) $spreadsheet->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);
-		$spreadsheet->getActiveSheet()->getStyle('A1:F1')->getFont()->setBold(true);
-		$spreadsheet->getActiveSheet()->getStyle('A1:F1')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('DDDDDD');
+		foreach(range('A','C') as $columnID) $spreadsheet->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);
+		$spreadsheet->getActiveSheet()->getStyle('A1:C1')->getFont()->setBold(true);
+		$spreadsheet->getActiveSheet()->getStyle('A1:C1')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('DDDDDD');
 
 		$spreadsheet->setActiveSheetIndex(0)
-			->setCellValue('A1', 'Nama Kelas');
+			->setCellValue('A1', 'Nama Mahasiswa')
+			->setCellValue('B1', 'Tanggal Absen')
+			->setCellValue('C1', 'Keterangan');
 
 		$i=2;
 		foreach($datas as $data) {
 			$spreadsheet->setActiveSheetIndex(0)
-				->setCellValue('A'.$i, $data->nama_kelas);
+				->setCellValue('A'.$i, $data->fullname)
+				->setCellValue('B'.$i, $data->tanggal_absen)
+				->setCellValue('C'.$i, $data->keterangan);
 			$i++;
 		}
 
@@ -208,13 +215,16 @@ class Matkul extends BackendController {
 		$writer->save('php://output');
 	}
 
-	public function export_pdf()
+	public function export_pdf($id_matkul)
 	{
-		$title = 'Export Kelas ' . date('d M Y');
-		$datas = $this->km_model->get()->result();
+		$title = 'Export Rekap ' . date('d M Y');
+		$id_matkul = wah_decode($id_matkul);
+		$user_id = ($this->ion_auth->in_group('mahasiswa') ? $this->session->userdata('user_id') : false);
+		$datas = $this->absensi_model->get(['absensi.id_matkul' => $id_matkul], $search)->result();
+		if ($user_id) $datas = $this->absensi_model->get(['absensi.id_user' => $user_id, 'absensi.id_matkul' => $id_matkul], $search)->result();
 
 		$pdf = new Fpdf();
-		$headers = array('Nama Kelas');
+		$headers = array('Nama Mahasiswa', 'Tanggal Absen', 'Keterangan');
 		$pdf->SetFont('Arial', '', 12);
 		$pdf->AddPage();
 
@@ -231,7 +241,9 @@ class Matkul extends BackendController {
 		$pdf->SetFont('', '', 10);
 		$fill = false;
 		foreach ($datas as $data) {
-			$pdf->Cell($width[0], 6, $data->nama_kelas, 0, 0, 'L', $fill);
+			$pdf->Cell($width[0], 6, $data->fullname, 0, 0, 'L', $fill);
+			$pdf->Cell($width[1], 6, $data->tanggal_absen, 0, 0, 'L', $fill);
+			$pdf->Cell($width[2], 6, $data->keterangan, 0, 0, 'L', $fill);
 			$pdf->Ln();
 			$fill = !$fill;
 		}
