@@ -21,7 +21,7 @@ class Jadwal extends BackendController {
 
 	public function index()
 	{
-		echo strtotime('-7 days', time());
+		// echo strtotime('-7 days', time());
 		$id = $this->session->userdata('user_id');
 		$search = (input_get('nama_kelas') ? ['nama_kelas' => input_get('nama_kelas')] : false);
 		if ($this->ion_auth->in_group('mahasiswa')) $this->data['total'] = $this->kmm_model->get(['kelas_matkul_mahasiswa.id_mahasiswa' => $id, 'DAYNAME(FROM_UNIXTIME(jadwal_mulai))' => date('l')], $search)->num_rows();
