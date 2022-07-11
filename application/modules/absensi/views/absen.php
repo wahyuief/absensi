@@ -100,7 +100,7 @@ function start() {
 
     video.addEventListener('play', async () => {
         const labeledFaceDescriptors = await loadLabeledImages()
-        const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, 0.6)
+        const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, 0.4)
         const canvas = faceapi.createCanvasFromMedia(video)
         document.getElementById('canvas').append(canvas)
         const displaySize = { width: video.width, height: video.height }
