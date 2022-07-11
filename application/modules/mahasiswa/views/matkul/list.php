@@ -4,13 +4,7 @@
           <div class="card-header">
               <div class="card-title"><?php if(!$this->ion_auth->in_group('mahasiswa')): ?>
                 <a href="<?php echo base_url('mahasiswa/matkul/add/' . $this->uri->segment(3)); ?>" class="btn btn-sm btn-primary"><i class="fas fa-plus"></i> Add New</a>
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Export</button>
-                    <div class="dropdown-menu" role="menu" style="">
-                      <a class="dropdown-item" href="<?php echo base_url('mahasiswa/matkul/export_pdf'); ?>">PDF</a>
-                      <a class="dropdown-item" href="<?php echo base_url('mahasiswa/matkul/export_excel'); ?>">Excel</a>
-                    </div>
-                  </div><?php endif; ?>
+                  <?php endif; ?>
                   <?php echo $user->fullname ?>
               </div>
               <div class="card-tools w-25">
