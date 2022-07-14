@@ -119,6 +119,7 @@ function start() {
                   simpanabsen(result.toString());
                 }
                 const box = resizedDetections[i].detection.box
+                console.log(box)
                 const drawBox = new faceapi.draw.DrawBox(box, { label: result.toString() })
                 drawBox.draw(canvas)
             })
