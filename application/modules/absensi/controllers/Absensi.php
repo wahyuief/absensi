@@ -20,12 +20,13 @@ class Absensi extends BackendController {
 		$this->load->model('foto_model');
     }
 
-	public function index($id)
+	public function index($id_kelas, $id_matkul)
 	{
-		$id = wah_decode($id);
-		$matkul = $this->km_model->get(['kelas_matkul.id_matkul' => $id])->row();
+		$id_kelas = wah_decode($id_kelas);
+		$id_matkul = wah_decode($id_matkul);
+		$matkul = $this->km_model->get(['kelas_matkul.id_kelas' => $id_kelas, 'kelas_matkul.id_matkul' => $id_matkul])->row();
 		if ($this->ion_auth->in_group('mahasiswa')) $this->data['data'] = $this->kmm_model->get(['kelas_matkul_mahasiswa.id_km' => $matkul->id_km, 'kelas_matkul_mahasiswa.id_mahasiswa' => $this->session->userdata('user_id')])->row();
-		if ($this->ion_auth->in_group('dosen')) $this->data['data'] = $this->km_model->get(['kelas_matkul.id_matkul' => $id, 'mata_kuliah.id_dosen' => $this->session->userdata('user_id')])->row();
+		if ($this->ion_auth->in_group('dosen')) $this->data['data'] = $this->km_model->get(['kelas_matkul.id_kelas' => $id_kelas, 'kelas_matkul.id_matkul' => $id_matkul, 'mata_kuliah.id_dosen' => $this->session->userdata('user_id')])->row();
 		$this->data['message'] = $this->_show_message();
 		$this->data['user'] = $this->ion_auth->user()->row();
 		$this->data['photos'] = $this->foto_model->get(['id_user' => $this->session->userdata('user_id')])->num_rows();

@@ -59,7 +59,7 @@ $route['mahasiswa/foto/upload'] = 'mahasiswa/foto/upload';
 $route['mahasiswa/foto/(:any)'] = 'mahasiswa/foto/index/$1';
 $route['dosen/foto/upload'] = 'dosen/foto/upload';
 $route['dosen/foto/(:any)'] = 'dosen/foto/index/$1';
-$route['jadwal/absensi/(:any)'] = 'absensi/index/$1';
+$route['jadwal/absensi/(:any)/(:any)'] = 'absensi/index/$1/$2';
 
 $route['default_controller'] = 'auth';
 $route['404_override'] = '';
