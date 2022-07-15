@@ -36,12 +36,15 @@
                       <th>Dosen</th>
                       <th>Semester</th>
                       <th>Jadwal</th>
+                      <th class="text-center">Presensi</th>
                       <th>Rekap Absen</th><?php if(!$this->ion_auth->in_group('mahasiswa')): ?>
                       <th width="100" class="text-center">Action</th><?php endif; ?>
                   </tr>
               </thead>
               <tbody>
-                  <?php if(!empty($datas)): $i=1;foreach ($datas as $data): ?>
+                  <?php if(!empty($datas)): $i=1;foreach ($datas as $data):
+                $presensi = $this->absensi_model->get(['absensi.id_user' => $user->id, 'absensi.id_matkul' => $data->id_matkul], $search)->num_rows();
+                ?>
                   <tr>
                       <td><?php echo $i++; ?></td>
                       <td><?php echo $data->nama_matkul; ?></td>
@@ -50,6 +53,7 @@
                       <td><?php echo $data->fullname; ?></td>
                       <td><?php echo $data->tahun . ' ' . $data->keterangan; ?></td>
                       <td><?php echo hariIndo(date('l', $data->jadwal_mulai)) .', '. date('H:i', $data->jadwal_mulai) .'-'. date('H:i', $data->jadwal_selesai); ?></td>
+                      <td class="text-center"><?php echo round($presensi*100/14); ?>%</td>
                       <td><a href="<?php echo base_url('mahasiswa/matkul/absensi/' . wah_encode($data->id_matkul) . '/' . wah_encode($data->id_mahasiswa)); ?>">Lihat Rekap Absen</a></td>
                       <?php if(!$this->ion_auth->in_group('mahasiswa')): ?><td class="text-center">
                         <div class="btn-group">
@@ -63,7 +67,7 @@
                   </tr>
                   <?php endforeach;else: ?>
                   <tr>
-                    <td colspan="9">No data available</td>
+                    <td colspan="10">No data available</td>
                   </tr>
                   <?php endif; ?>
               </tbody>

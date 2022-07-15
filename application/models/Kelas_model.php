@@ -9,7 +9,7 @@ class Kelas_model extends CI_Model
         $order_by || $order_by = 'id_kelas DESC';
         if($where) $this->db->where($where);
         if($like) $this->db->like($like);
-        if($limit && $offset) $this->db->limit($limit, $offset);
+        if($limit || $offset) $this->db->limit($limit, $offset);
         if($order_by) $this->db->order_by($order_by);
         $query = $this->db->get($this->table);
         return $query;

@@ -10,7 +10,7 @@ class Matkul_model extends CI_Model
         $order_by || $order_by = 'id_matkul DESC';
         if($where) $this->db->where($where);
         if($like) $this->db->like($like);
-        if($limit && $offset) $this->db->limit($limit, $offset);
+        if($limit || $offset) $this->db->limit($limit, $offset);
         if($order_by) $this->db->order_by($order_by);
         $this->db->join('semester', 'mata_kuliah.id_semester = semester.id_semester');
         $this->db->join('users', 'mata_kuliah.id_dosen = users.id');

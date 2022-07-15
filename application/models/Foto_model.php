@@ -10,7 +10,7 @@ class Foto_model extends CI_Model
         $order_by || $order_by = 'users_photos.id DESC';
         if($where) $this->db->where($where);
         if($like) $this->db->like($like);
-        if($limit && $offset) $this->db->limit($limit, $offset);
+        if($limit || $offset) $this->db->limit($limit, $offset);
         if($order_by) $this->db->order_by($order_by);
         $this->db->join('users', 'users_photos.id_user = users.id');
         $query = $this->db->get($this->table);

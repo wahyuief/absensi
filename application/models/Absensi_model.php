@@ -10,7 +10,7 @@ class Absensi_model extends CI_Model
         $order_by || $order_by = 'absensi.id_absensi DESC';
         if($where) $this->db->where($where);
         if($like) $this->db->like($like);
-        if($limit && $offset) $this->db->limit($limit, $offset);
+        if($limit || $offset) $this->db->limit($limit, $offset);
         if($order_by) $this->db->order_by($order_by);
         $this->db->join('mata_kuliah', 'absensi.id_matkul = mata_kuliah.id_matkul');
         $this->db->join('users', 'absensi.id_user = users.id');
