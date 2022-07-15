@@ -2,10 +2,14 @@
     <div class="container-fluid">
         <div class="card">
           <div class="card-header">
-              <div class="card-title"><?php if(!$this->ion_auth->in_group('mahasiswa')): ?>
+              <div class="card-title">
+              <div class="btn-group">
+                <?php if(!$this->ion_auth->in_group('mahasiswa')): ?>
+                <a href="<?php echo base_url('mahasiswa') ?>" class="btn btn-sm btn-default">Back</a> 
                 <a href="<?php echo base_url('mahasiswa/matkul/add/' . $this->uri->segment(3)); ?>" class="btn btn-sm btn-primary"><i class="fas fa-plus"></i> Add New</a>
                   <?php endif; ?>
                   <?php echo $user->fullname ?>
+              </div>
               </div>
               <div class="card-tools w-25">
                   <form method="get">
@@ -59,7 +63,7 @@
                   </tr>
                   <?php endforeach;else: ?>
                   <tr>
-                    <td colspan="8">No data available</td>
+                    <td colspan="9">No data available</td>
                   </tr>
                   <?php endif; ?>
               </tbody>

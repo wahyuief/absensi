@@ -3,7 +3,8 @@
         <div class="card">
           <div class="card-header">
               <div class="card-title"><div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Export</button>
+              <a href="<?php echo base_url('mahasiswa/matkul/'.$this->uri->segment(5) ) ?>" class="btn btn-sm btn-default">Back</a>
+              <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Export</button>
                     <div class="dropdown-menu" role="menu" style="">
                       <a class="dropdown-item" href="<?php echo base_url('mahasiswa/matkul/export_pdf/'.$this->uri->segment(4) . '/' . $this->uri->segment(5)); ?>">PDF</a>
                       <a class="dropdown-item" href="<?php echo base_url('mahasiswa/matkul/export_excel/'.$this->uri->segment(4) . '/' . $this->uri->segment(5)); ?>">Excel</a>

@@ -42,17 +42,6 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="form-group row">
-                                    <label for="accent_color" class="col-sm-2 col-form-label">Accent Color<i class="required">*</i></label>
-                                    <div class="col-sm-10">
-                                        <select name="accent_color" id="accent_color" class="form-control" style="width: 100%" required>
-                                            <option <?php echo (get_option('accent_color') === 'danger') ? 'selected' : '' ?> value="danger">Red</option>
-                                            <option <?php echo (get_option('accent_color') === 'success') ? 'selected' : '' ?> value="success">Green</option>
-                                            <option <?php echo (get_option('accent_color') === 'primary') ? 'selected' : '' ?> value="primary">Blue</option>
-                                            <option <?php echo (get_option('accent_color') === 'warning') ? 'selected' : '' ?> value="warning">Yellow</option>
-                                        </select>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>

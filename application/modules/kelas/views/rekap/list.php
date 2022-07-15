@@ -3,11 +3,14 @@
         <div class="card">
           <div class="card-header">
               <div class="card-title"><div class="btn-group">
+              <div class="btn-group">
+              <a href="#" onclick="history.back()" class="btn btn-sm btn-default">Back</a>
                     <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Export</button>
                     <div class="dropdown-menu" role="menu" style="">
                       <a class="dropdown-item" href="<?php echo base_url('kelas/matkul/export_pdf/'.$this->uri->segment(4)); ?>">PDF</a>
                       <a class="dropdown-item" href="<?php echo base_url('kelas/matkul/export_excel/'.$this->uri->segment(4)); ?>">Excel</a>
                     </div>
+                  </div>
                   </div>
                 <?php echo $matkul->nama_matkul ?>
               </div>

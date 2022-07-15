@@ -2,9 +2,12 @@
     <div class="container-fluid">
         <div class="card">
           <div class="card-header">
-              <div class="card-title">
-                <a href="<?php echo base_url('dosen/foto/add/' . $this->uri->segment(3)); ?>" class="btn btn-sm btn-primary"><i class="fas fa-plus"></i> Add New</a>
+              <div class="card-title">              
+              <div class="btn-group">
+              <a href="<?php echo base_url('dosen') ?>" class="btn btn-sm btn-default">Back</a>
+              <a href="<?php echo base_url('dosen/foto/add/' . $this->uri->segment(3)); ?>" class="btn btn-sm btn-primary"><i class="fas fa-plus"></i> Add New</a>
                   <?php echo $user->fullname ?>
+              </div>
               </div>
               <div class="card-tools w-25">
                   <form method="get">

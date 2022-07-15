@@ -3,6 +3,8 @@
         <div class="card">
           <div class="card-header">
               <div class="card-title">
+              <div class="btn-group">
+              <a href="<?php echo base_url('kelas') ?>" class="btn btn-sm btn-default">Back</a>
                 <a href="<?php echo base_url('kelas/matkul/add/' . $this->uri->segment(3)); ?>" class="btn btn-sm btn-primary"><i class="fas fa-plus"></i> Add New</a>
                   <div class="btn-group">
                     <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Export</button>
@@ -10,6 +12,7 @@
                       <a class="dropdown-item" href="<?php echo base_url('kelas/matkul/export_pdf'); ?>">PDF</a>
                       <a class="dropdown-item" href="<?php echo base_url('kelas/matkul/export_excel'); ?>">Excel</a>
                     </div>
+                  </div>
                   </div>
                   <?php echo $kelas->nama_kelas ?>
               </div>
