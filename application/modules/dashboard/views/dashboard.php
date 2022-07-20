@@ -67,5 +67,59 @@
           </div>
           <!-- ./col -->
         </div>
+        <?php if ($this->ion_auth->in_group('mahasiswa')): ?>
+        <div class="card">
+          <div class="card-header">
+              <div class="card-title">
+                <div class="btn-group">
+                  <?php if(!$this->ion_auth->in_group('mahasiswa')): ?>
+                  <a href="<?php echo base_url('mahasiswa') ?>" class="btn btn-sm btn-default">Back</a> 
+                  <a href="<?php echo base_url('mahasiswa/matkul/add/' . $this->uri->segment(3)); ?>" class="btn btn-sm btn-primary"><i class="fas fa-plus"></i> Add New</a>
+                    <?php endif; ?>
+                    <?php echo $user->fullname ?>
+                </div>
+              </div>
+          </div>
+          <div class="card-body p-0 table-responsive">
+            <table class="table table-striped">
+              <thead>
+                  <tr>
+                      <th width="5">#</th>
+                      <th>Mata Kuliah</th>
+                      <th>Kelas</th>
+                      <th class="text-center">Presensi</th>
+                      <th>Rekap Absen</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <?php if(!empty($datas)): $i=1;foreach ($datas as $data):
+                $presensi = $this->absensi_model->get(['absensi.id_user' => $user->id, 'absensi.id_matkul' => $data->id_matkul], $search)->num_rows();
+                ?>
+                  <tr>
+                      <td><?php echo $i++; ?></td>
+                      <td><?php echo $data->nama_matkul; ?></td>
+                      <td><?php echo $data->nama_kelas; ?></td>
+                      <td class="text-center"><?php echo round($presensi*100/14); ?>%</td>
+                      <td><a href="<?php echo base_url('mahasiswa/matkul/absensi/' . wah_encode($data->id_matkul) . '/' . wah_encode($data->id_mahasiswa)); ?>">Lihat Rekap Absen</a></td>
+                  </tr>
+                  <?php endforeach;else: ?>
+                  <tr>
+                    <td colspan="10">No data available</td>
+                  </tr>
+                  <?php endif; ?>
+              </tbody>
+            </table>
+          </div>
+          <div class="card-footer border-top text-center row">
+            <div class="col-sm-6"><p class="float-sm-left m-0" style="line-height: 2;">Showing <?php echo $start; ?> to <?php echo $end; ?> of <?php echo $total; ?> entries</p></div>
+            <div class="col-sm-6">
+            <?php echo yidas\widgets\Pagination::widget([
+              'pagination' => $pagination,
+              'ulCssClass' => 'pagination pagination-sm float-sm-right m-0'
+            ]); ?>
+            </div>
+          </div>
+        </div>
+        <?php endif; ?>
 	</div>
 </section>

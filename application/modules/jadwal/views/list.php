@@ -43,7 +43,23 @@
                       <td><?php echo $data->fullname; ?></td>
                       <td><?php echo $data->tahun . ' ' . $data->keterangan; ?></td>
                       <td><?php echo hariIndo(date('l', $data->jadwal_mulai)) .', '. date('H:i', $data->jadwal_mulai) .'-'. date('H:i', $data->jadwal_selesai); ?></td>
-                      <td class="text-center"><?php if(!$this->absensi_model->get(['absensi.id_matkul' => $data->id_matkul, 'DAYNAME(tanggal_absen)' => date('l'), 'DATE(tanggal_absen)' => date('Y-m-d'), 'id_user' => $this->session->userdata('user_id')])->num_rows()): ?><a href="<?php echo base_url('jadwal/absensi/'.wah_encode($data->id_kelas).'/'.wah_encode($data->id_matkul)); ?>" class="btn btn-sm btn-primary">Mulai Absen</a><?php else: ?>Sudah Absen<?php endif; ?></td>
+                      <td class="text-center">
+                        <?php 
+                        if(date('Hi') >= date('Hi', $data->jadwal_mulai) && date('Hi') <= date('Hi', $data->jadwal_selesai)) {
+                          if(!$this->absensi_model->get(['absensi.id_matkul' => $data->id_matkul, 'DAYNAME(tanggal_absen)' => date('l'), 'DATE(tanggal_absen)' => date('Y-m-d'), 'id_user' => $this->session->userdata('user_id')])->num_rows()) {
+                            echo '<a href="'.base_url('jadwal/absensi/'.wah_encode($data->id_kelas).'/'.wah_encode($data->id_matkul)).'" class="btn btn-sm btn-primary">Mulai Absen</a>';
+                          } else {
+                            echo 'Sudah Absen';
+                          }
+                        } else {
+                          if (date('Hi') <= date('Hi', $data->jadwal_mulai)) {
+                            echo 'Belum Dibuka';
+                          } else if (date('Hi') >= date('Hi', $data->jadwal_selesai)) {
+                            echo 'Telat';
+                          }
+                        }
+                        ?>
+                      </td>
                   </tr>
                   <?php endforeach;else: ?>
                   <tr>
