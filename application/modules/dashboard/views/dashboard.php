@@ -7,7 +7,7 @@
             <!-- small box -->
             <div class="small-box bg-info">
               <div class="inner">
-                <h3>150</h3>
+                <h3><?php echo $jml_mahasiswa ?></h3>
 
                 <p>Mahasiswa</p>
               </div>
@@ -23,7 +23,7 @@
             <!-- small box -->
             <div class="small-box bg-success">
               <div class="inner">
-                <h3>53</h3>
+                <h3><?php echo $jml_dosen ?></h3>
 
                 <p>Dosen</p>
               </div>
@@ -39,7 +39,7 @@
             <!-- small box -->
             <div class="small-box bg-warning">
               <div class="inner">
-                <h3>44</h3>
+                <h3><?php echo $jml_kelas ?></h3>
 
                 <p>Kelas</p>
               </div>
@@ -55,7 +55,7 @@
             <!-- small box -->
             <div class="small-box bg-danger">
               <div class="inner">
-                <h3>65</h3>
+                <h3><?php echo $jml_matkul ?></h3>
 
                 <p>Mata Kuliah</p>
               </div>
@@ -121,5 +121,41 @@
           </div>
         </div>
         <?php endif; ?>
-	</div>
+
+        <div>
+        <?php if ($this->ion_auth->in_group('admin')): ?>
+          <h4>Grafik Jumlah User</h4?>
+          <canvas id="oilChart" width="500" height="150"></canvas>
+          <script src="./assets/Chart.js"></script>
+          <script type="text/javascript">
+          var oilCanvas = document.getElementById("oilChart");
+
+          Chart.defaults.global.defaultFontFamily = "Lato";
+          Chart.defaults.global.defaultFontSize = 18;
+
+          var oilData = {
+          labels: [
+              "Active",
+              "InActive",
+          ],
+          datasets: [
+              {
+                  data: [
+                  <?php echo $jml_active ?>.0, 
+                  <?php echo $jml_inactive ?>.0],
+                  backgroundColor: [
+                      "#0080ff",
+                      "#d801ff",
+                  ]
+              }]
+          };
+
+          var pieChart = new Chart(oilCanvas, {
+          type: 'pie',
+          data: oilData
+          });
+          </script>
+          </div>
+          <?php endif; ?>
+          </div>
 </section>
