@@ -1,6 +1,7 @@
 <section class="content">
       <div class="container-fluid">
         <!-- Small boxes (Stat box) -->
+        <?php if ($this->ion_auth->in_group(['admin','dosen'])): ?>
         <div class="row">
           <div class="col-lg-3 col-6">
           <a href="<?php echo base_url('mahasiswa') ?>" >
@@ -66,6 +67,7 @@
           </a>
           </div>
           <!-- ./col -->
+          <?php endif; ?>
         </div>
         <?php if ($this->ion_auth->in_group('mahasiswa')): ?>
         <div class="card">
