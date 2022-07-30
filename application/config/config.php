@@ -459,7 +459,10 @@ $config['csrf_exclude_uris'] = array(
     'mahasiswa/foto/upload',
     'dosen/foto/upload',
     'profile/foto/upload',
-    'absensi/upload'
+    'absensi/upload',
+    'absensi/upload_foto',
+    'absensi/detail_absensi',
+    'administrator/settings/check_location'
 );
 
 /*

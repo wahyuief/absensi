@@ -43,6 +43,8 @@ class Absensi extends BackendController {
 			'id_matkul' => wah_decode(input_post('matkul')),
 			'id_user' => $this->session->userdata('user_id'),
 			'tanggal_absen' => date('Y-m-d H:i:s'),
+			'latitude' => input_post('latitude'),
+			'longitude' => input_post('longitude'),
 			'keterangan' => 'Masuk'
 		];
 		
@@ -55,6 +57,56 @@ class Absensi extends BackendController {
 				'success' => true
 			));
 		}
+	}
+
+	public function upload_foto()
+	{
+		$id_user = $this->session->userdata('user_id');
+		$user = $this->ion_auth->where('id', $id_user)->users()->row();
+		$id_matkul = wah_decode(input_post('matkul'));
+
+		$data_matkul = $this->matkul_model->get(['id_matkul' => $id_matkul])->row();
+
+		$nama_file = strtolower($user->username . str_replace(' ', '', $data_matkul->nama_matkul) . date('d-M-Y'));
+
+		if ($this->absensi_model->get(['absensi.id_matkul' => $id_matkul, 'absensi.id_user' => $id_user])->num_rows() > 0) {
+			return false;
+		}
+
+		$data = [
+			'foto' => $this->base64_to_jpeg($this->input->post('foto'), $nama_file . '.jpg')
+		];
+
+		if ($this->absensi_model->set($data, ['absensi.id_matkul' => $id_matkul, 'absensi.id_user' => $id_user])) {
+			echo json_encode(array(
+				'foto' => $data['foto'],
+			));
+		}
+	}
+
+	function base64_to_jpeg($base64_string, $output_file) {
+		$filename = 'assets/absensi/'.$output_file;
+		$dirname = dirname($filename);
+		if (!is_dir($dirname)) mkdir($dirname, 0755, true);
+		$ifp = fopen( $filename, 'wb' ); 
+		$data = explode( ',', $base64_string );
+		fwrite( $ifp, base64_decode( $data[ 1 ] ) );
+		fclose( $ifp ); 
+		return $output_file; 
+	}
+
+	public function detail_absensi()
+	{
+		$id_matkul = wah_decode(input_post('id_matkul'));
+		$data = $this->absensi_model->get(['absensi.id_matkul' => $id_matkul, 'id_user' => $this->session->userdata('user_id')])->row();
+		$output = array(
+			'tanggal_absen' => $data->tanggal_absen,
+			'latitude' => $data->latitude,
+			'longitude' => $data->longitude,
+			'lokasi_absen' => find_location($data->latitude, $data->longitude),
+			'foto' => $data->foto
+		);
+		echo json_encode($output);
 	}
 	
 	public function export_excel()

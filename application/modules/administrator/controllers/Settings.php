@@ -38,30 +38,49 @@ class Settings extends BackendController {
 		}
 	}
 
-	public function security()
+	public function absensi()
 	{
 		$user_sess = $this->ion_auth->user()->row();
-		$this->form_validation->set_rules('fullname', 'full name', 'trim|required');
-		$this->form_validation->set_rules('phone', 'phone', 'trim|required');
-		$this->form_validation->set_rules('company', 'company', 'trim');
+		$this->form_validation->set_rules('longitude', 'longitude', 'trim|required');
+		$this->form_validation->set_rules('latitude', 'latitude', 'trim|required');
 
 		if ($this->form_validation->run() === FALSE) {
 			$this->data['message'] = $this->_show_message('error', $this->ion_auth->errors());
-			$this->_render_page('settings/security', $this->data);
+			$this->_render_page('settings/absensi', $this->data);
 		} else {
-			$data = [
-				'username' => $user_sess->username,
-				'email' => $user_sess->email,
-				'fullname' => input_post('fullname'),
-				'company' => input_post('company'),
-				'phone' => input_post('phone')
-			];
-			if ($this->ion_auth->update($user_sess->id, $data)) {
-				$this->_set_message('success', $this->ion_auth->messages());
-			} else {
-				$this->_set_message('error', $this->ion_auth->errors());
-			}
-			redirect(base_url('administrator/settings/security'), 'refresh');
+			set_option('latitude', input_post('latitude'));
+			set_option('longitude', input_post('longitude'));
+			redirect(base_url('administrator/settings/absensi'), 'refresh');
 		}
+	}
+
+	public function check_location()
+	{
+		$latitude = $this->input->post('latitude');
+		$longitude = $this->input->post('longitude');
+		$curl = curl_init();
+
+		curl_setopt_array($curl, array(
+			CURLOPT_URL => 'https://photon.komoot.io/reverse?lat='.$latitude.'&lon='.$longitude,
+			CURLOPT_RETURNTRANSFER => true,
+			CURLOPT_ENCODING => '',
+			CURLOPT_MAXREDIRS => 10,
+			CURLOPT_TIMEOUT => 0,
+			CURLOPT_FOLLOWLOCATION => true,
+			CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+			CURLOPT_CUSTOMREQUEST => 'GET',
+			CURLOPT_SSL_VERIFYPEER => false
+		));
+
+		$response = curl_exec($curl);
+
+		curl_close($curl);
+		$data = json_decode($response);
+		$nama_tempat = $data->features[0]->properties->name;
+		$city = $data->features[0]->properties->city;
+		$street = $data->features[0]->properties->street;
+		$district = $data->features[0]->properties->district;
+		$postcode = $data->features[0]->properties->postcode;
+		echo $nama_tempat . '. ' . $street . ', ' . $district . ', ' . $city . ' ' . $postcode;
 	}
 }
