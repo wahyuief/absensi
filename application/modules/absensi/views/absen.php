@@ -174,7 +174,7 @@ function start() {
                 const drawBox = new faceapi.draw.DrawBox(box, { label: result.toString() })
                 drawBox.draw(canvas)
             })
-        }, 1000)
+        }, 2000)
     })
 }
 console.log("Open File absensi/asset/models");
@@ -331,7 +331,7 @@ function canvas2gray(c) {
                         url: "<?php echo base_url('absensi/upload') ?>",
                         success: function(data){
                               data = JSON.parse(data)
-                              if (data.success == true) {
+                              if (data.success) {
                                     $('#status').val("Sudah Absen")
                                     detailAbsensi()
                               }
@@ -374,6 +374,5 @@ function canvas2gray(c) {
                   }
             });
       }
-
       detailAbsensi()
 </script>

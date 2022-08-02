@@ -49,12 +49,13 @@ class Absensi extends BackendController {
 		];
 		
 		if ($absensi->num_rows() > 0) {
-			echo json_encode(array());
+			echo json_encode(array('id_absen' => wah_encode($absensi->row()->id_absensi)));
 			return false;
 		}
 
-		if ($this->absensi_model->add($data)) {
+		if ($id = $this->absensi_model->add($data)) {
 			echo json_encode(array(
+				'id_absen' => wah_encode($id),
 				'success' => true
 			));
 		} else {
@@ -68,15 +69,21 @@ class Absensi extends BackendController {
 		$user = $this->ion_auth->where('id', $id_user)->users()->row();
 		$id_matkul = wah_decode(input_post('matkul'));
 
+		$absensi = $this->absensi_model->get(['absensi.id_matkul' => $id_matkul, 'DAYNAME(tanggal_absen)' => date('l'), 'DATE(tanggal_absen)' => date('Y-m-d'), 'absensi.id_user' => $this->session->userdata('user_id')]);
 		$data_matkul = $this->matkul_model->get(['id_matkul' => $id_matkul])->row();
+		$id_absen = $absensi->row()->id_absensi;
 
-		$nama_file = strtolower($user->username . str_replace(' ', '', $data_matkul->nama_matkul) . date('d-M-Y'));
+		$nama_file = strtolower($user->username . $id_absen . date('dmY'));
+
+		if (!empty($absensi->row()->foto)) {
+			return false;
+		}
 
 		$data = [
 			'foto' => $this->base64_to_jpeg($this->input->post('foto'), $nama_file . '.jpg')
 		];
 
-		if ($this->absensi_model->set($data, ['absensi.id_matkul' => $id_matkul, 'absensi.id_user' => $id_user])) {
+		if ($this->absensi_model->set($data, ['absensi.id_absensi' => $id_absen, 'absensi.id_matkul' => $id_matkul, 'absensi.id_user' => $id_user])) {
 			echo json_encode(array(
 				'success' => true,
 				'foto' => $data['foto'],
@@ -100,7 +107,7 @@ class Absensi extends BackendController {
 	public function detail_absensi()
 	{
 		$id_matkul = wah_decode(input_post('id_matkul'));
-		$data = $this->absensi_model->get(['absensi.id_matkul' => $id_matkul, 'id_user' => $this->session->userdata('user_id')])->row();
+		$data = $this->absensi_model->get(['absensi.id_matkul' => $id_matkul, 'DAYNAME(tanggal_absen)' => date('l'), 'DATE(tanggal_absen)' => date('Y-m-d'), 'absensi.id_user' => $this->session->userdata('user_id')])->row();
 		$output = array(
 			'tanggal_absen' => $data->tanggal_absen,
 			'latitude' => $data->latitude,
