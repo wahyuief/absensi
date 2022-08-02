@@ -34,6 +34,8 @@
                       <th>Nama Mahasiswa</th>
                       <th>Tanggal Absen</th>
                       <th>Keterangan</th>
+                      <th>Foto Absen</th>
+                      <th>Lokasi Absen</th>
                   </tr>
               </thead>
               <tbody>
@@ -43,6 +45,8 @@
                       <td><?php echo $data->fullname; ?></td>
                       <td><?php echo $data->tanggal_absen; ?></td>
                       <td><?php echo $data->keterangan; ?></td>
+                      <td><img src="<?php echo base_url('assets/absensi/'.$data->foto); ?>" width="100" alt="Tidak ada foto"></td>
+                      <td><?php echo 'Latitude: '.$data->latitude.'<br>Longitude: '.$data->longitude.'<br>Lokasi: '.find_location($data->latitude, $data->longitude).'<br>Jarak ke Unsada: ±'.number_format(jaraknya(get_option('latitude'), get_option('longitude'), $data->latitude, $data->longitude, 'K'), 2, '.', '').' KM'; ?></td>
                   </tr>
                   <?php endforeach;else: ?>
                   <tr>

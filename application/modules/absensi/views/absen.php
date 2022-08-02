@@ -331,8 +331,10 @@ function canvas2gray(c) {
                         url: "<?php echo base_url('absensi/upload') ?>",
                         success: function(data){
                               data = JSON.parse(data)
-                              $('#status').val("Sudah Absen")
-                              detailAbsensi()
+                              if (data.success == true) {
+                                    $('#status').val("Sudah Absen")
+                                    detailAbsensi()
+                              }
                         }
                   });
             });
@@ -346,7 +348,9 @@ function canvas2gray(c) {
                   url: "<?php echo base_url('absensi/upload_foto') ?>",
                   success: function(data){
                         data = JSON.parse(data)
-                        detailAbsensi()
+                        if (data.success == true) {
+                              detailAbsensi()
+                        }
                   }
             });
       }

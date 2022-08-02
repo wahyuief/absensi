@@ -49,6 +49,7 @@ class Absensi extends BackendController {
 		];
 		
 		if ($absensi->num_rows() > 0) {
+			echo json_encode(array());
 			return false;
 		}
 
@@ -56,6 +57,8 @@ class Absensi extends BackendController {
 			echo json_encode(array(
 				'success' => true
 			));
+		} else {
+			echo json_encode(array());
 		}
 	}
 
@@ -69,18 +72,17 @@ class Absensi extends BackendController {
 
 		$nama_file = strtolower($user->username . str_replace(' ', '', $data_matkul->nama_matkul) . date('d-M-Y'));
 
-		if ($this->absensi_model->get(['absensi.id_matkul' => $id_matkul, 'absensi.id_user' => $id_user])->num_rows() > 0) {
-			return false;
-		}
-
 		$data = [
 			'foto' => $this->base64_to_jpeg($this->input->post('foto'), $nama_file . '.jpg')
 		];
 
 		if ($this->absensi_model->set($data, ['absensi.id_matkul' => $id_matkul, 'absensi.id_user' => $id_user])) {
 			echo json_encode(array(
+				'success' => true,
 				'foto' => $data['foto'],
 			));
+		} else {
+			echo json_encode(array());
 		}
 	}
 
