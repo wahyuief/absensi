@@ -154,6 +154,7 @@ function start() {
         const displaySize = { width: video.width, height: video.height }
         faceapi.matchDimensions(canvas, displaySize)
         setInterval(async () => {
+            console.log("Image Matching..")
             const detections = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks(true).withFaceDescriptors().withFaceExpressions()
             const resizedDetections = faceapi.resizeResults(detections, displaySize)
             const results = await resizedDetections.map(d => faceMatcher.findBestMatch(d.descriptor))
@@ -169,19 +170,22 @@ function start() {
                 }
                 const box = resizedDetections[i].detection.box
                 console.log(box)
+                console.log(result.toString())
                 const drawBox = new faceapi.draw.DrawBox(box, { label: result.toString() })
                 drawBox.draw(canvas)
             })
         }, 1000)
     })
 }
-
+console.log("Open File absensi/asset/models");
 function loadLabeledImages() {
     const labels = ['<?php echo $user->fullname ?>'];
     return Promise.all(
         labels.map(async label => {
+            console.log("Load Library FaceAPI..");
             const descriptions = []
             for (let i = 1; i <= <?php echo $photos ?>; i++) {
+                  console.log("Searching Image..");
                   const img = await faceapi.fetchImage('/assets/facedetection/images/'+`${label}/${i}.jpg`)
                   const detections = await faceapi.detectSingleFace(img).withFaceLandmarks(true).withFaceDescriptor()
                   descriptions.push(detections.descriptor)
@@ -261,7 +265,7 @@ const getFaceAndDescriptor = (canvas, type = 'base64') => {
   
         resolve(photo);
       } catch (error) {
-        console.error(error);
+      //   console.error(error);
         reject(error);
       }
     });
