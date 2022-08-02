@@ -9,7 +9,7 @@ function unique_id($mode = false, $length = 16) {
 function wah_encode($value) {
     if (!$value) return false;
     $ci = &get_instance();
-    $value = base64_encode(unique_id('symbol', 3) . '|' . base64_encode($value) . '|' . unique_id(false, 3));
+    $value = unique_id('symbol', 3) . '|' . $value . '|' . unique_id(false, 3);
     $key = hash('sha256', $ci->config->item('encryption_key'), true);
     $strLen = strlen($value);
     $keyLen = strlen($key);
@@ -41,9 +41,8 @@ function wah_decode($value) {
         $decrypttext .= chr($ordStr - $ordKey);
     }
 
-    $decodedstr = explode('|', base64_decode($decrypttext));
-    // if (time() > $decodedstr[1]) show_error('Your token is no longer valid.');
-    return base64_decode($decodedstr[1]);
+    $decodedstr = explode('|', $decrypttext);
+    return $decodedstr[1];
 }
 
 function wah_encrypt($data, $key = null, $cipher = 'bf-ofb') {
@@ -133,4 +132,32 @@ function hariIndo($hariInggris) {
       default:
         return '-';
     }
+}
+
+function find_location($latitude, $longitude)
+{
+		$curl = curl_init();
+
+		curl_setopt_array($curl, array(
+			CURLOPT_URL => 'https://photon.komoot.io/reverse?lat='.$latitude.'&lon='.$longitude,
+			CURLOPT_RETURNTRANSFER => true,
+			CURLOPT_ENCODING => '',
+			CURLOPT_MAXREDIRS => 10,
+			CURLOPT_TIMEOUT => 0,
+			CURLOPT_FOLLOWLOCATION => true,
+			CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+			CURLOPT_CUSTOMREQUEST => 'GET',
+			CURLOPT_SSL_VERIFYPEER => false
+		));
+
+		$response = curl_exec($curl);
+
+		curl_close($curl);
+		$data = json_decode($response);
+		$nama_tempat = $data->features[0]->properties->name;
+		$city = $data->features[0]->properties->city;
+		$street = $data->features[0]->properties->street;
+		$district = $data->features[0]->properties->district;
+		$postcode = $data->features[0]->properties->postcode;
+		return ($nama_tempat) ? $nama_tempat . '. ' . $street . ', ' . $district . ', ' . $city . ' ' . $postcode : '-';
 }

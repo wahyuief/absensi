@@ -6,7 +6,7 @@ class Absensi_model extends CI_Model
 
     public function get($where = false, $like = false, $limit = false, $offset = false, $order_by = false)
     {
-        $this->db->select('absensi.tanggal_absen, absensi.keterangan, mata_kuliah.nama_matkul, mata_kuliah.sks, users.*');
+        $this->db->select('absensi.tanggal_absen, absensi.foto, absensi.latitude, absensi.longitude, absensi.keterangan, mata_kuliah.nama_matkul, mata_kuliah.sks, users.*');
         $order_by || $order_by = 'absensi.id_absensi DESC';
         if($where) $this->db->where($where);
         if($like) $this->db->like($like);
