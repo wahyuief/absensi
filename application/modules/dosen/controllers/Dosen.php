@@ -17,15 +17,15 @@ class Dosen extends BackendController {
 
 	public function index()
 	{
-		$this->data['total'] = $this->ion_auth->like('username', input_get('q'))->like('fullname', input_get('q'))->like('email', input_get('q'))->users('dosen')->num_rows();
+		$this->data['total'] = $this->ion_auth->like('fullname', input_get('q'))->users('dosen')->num_rows();
 		$this->data['pagination'] = new \yidas\data\Pagination([
 			'perPageParam' => '',
 			'totalCount' => $this->data['total'],
 			'perPage' => 10,
 		]);
 		$this->data['start'] = ($this->data['total'] > 0 ? $this->data['pagination']->offset+1 : 0);
-		$this->data['end'] = ($this->data['total'] > 0 ? $this->data['pagination']->offset+$this->ion_auth->limit($this->data['pagination']->limit)->offset($this->data['pagination']->offset)->users('dosen')->num_rows() : 0);
-		$this->data['users'] = $this->ion_auth->like('username', input_get('q'))->like('fullname', input_get('q'))->like('email', input_get('q'))->limit($this->data['pagination']->limit)->offset($this->data['pagination']->offset)->order_by('id', 'DESC')->users('dosen')->result();
+		$this->data['end'] = ($this->data['total'] > 0 ? $this->data['pagination']->offset+$this->ion_auth->like('fullname', input_get('q'))->limit($this->data['pagination']->limit)->offset($this->data['pagination']->offset)->users('dosen')->num_rows() : 0);
+		$this->data['users'] = $this->ion_auth->like('fullname', input_get('q'))->limit($this->data['pagination']->limit)->offset($this->data['pagination']->offset)->order_by('id', 'DESC')->users('dosen')->result();
 		$this->data['message'] = $this->_show_message();
 
 		$this->_render_page('dosen/list', $this->data);

@@ -64,7 +64,7 @@
                   </tr>
                   <?php endforeach;else: ?>
                   <tr>
-                    <td colspan="8">No data available</td>
+                    <td colspan="9">No data available</td>
                   </tr>
                   <?php endif; ?>
               </tbody>
