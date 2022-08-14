@@ -347,9 +347,11 @@ function canvas2gray(c) {
                   data: {matkul:matkul,foto:str},
                   url: "<?php echo base_url('absensi/upload_foto') ?>",
                   success: function(data){
-                        data = JSON.parse(data)
-                        if (data.success == true) {
-                              detailAbsensi()
+                        if (data) {
+                              data = JSON.parse(data)
+                              if (data.success == true) {
+                                    detailAbsensi()
+                              }
                         }
                   }
             });
