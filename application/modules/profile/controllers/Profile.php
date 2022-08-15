@@ -38,7 +38,8 @@ class Profile extends BackendController {
 					'email' => $user_sess->email,
 					'fullname' => input_post('fullname'),
 					'company' => input_post('company'),
-					'phone' => input_post('phone')
+					'phone' => input_post('phone'),
+					'marital_status' => input_post('marital_status')
 				];
 				if ($this->ion_auth->update($user_sess->id, $data)) {
 					$this->_set_message('success', $this->ion_auth->messages());
