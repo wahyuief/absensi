@@ -48,10 +48,10 @@
                               <label for="marital_status" class="col-sm-2 form-label wahlabel">Status Pernikahan</label>
                               <div class="col-sm-8">
                                     <div class="icheck-primary">
-                                          <input type="radio" name="marital_status" id="belummenikah" value="Belum Menikah"> <label for="belummenikah">Belum Menikah</label>
+                                          <input type="radio" name="marital_status" id="menikah" value="Menikah"> <label for="menikah">Menikah</label>
                                     </div>
                                     <div class="icheck-primary">
-                                          <input type="radio" name="marital_status" id="sudahmenikah" value="Sudah Menikah"> <label for="sudahmenikah">Sudah Menikah</label>
+                                          <input type="radio" name="marital_status" id="belummenikah" value="Belum Menikah"> <label for="belummenikah">Belum Menikah</label>
                                     </div>
                               </div>
                         </div>
