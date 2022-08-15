@@ -53,7 +53,8 @@ class Dosen extends BackendController {
 				'username' => input_post('username'),
 				'fullname' => input_post('fullname'),
 				'phone' => input_post('phone'),
-				'uuid' => unique_id('uuid')
+				'uuid' => unique_id('uuid'),
+				'marital_status' => input_post('marital_status')
 			];
 		}
 		
@@ -95,7 +96,8 @@ class Dosen extends BackendController {
 					'username' => input_post('username'),
 					'email' => input_post('email'),
 					'phone' => input_post('phone'),
-					'active' => input_post('status')
+					'active' => input_post('status'),
+					'marital_status' => input_post('marital_status')
 				];
 
 				if (input_post('password')) $data['password'] = input_post('password');

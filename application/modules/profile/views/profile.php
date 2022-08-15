@@ -77,6 +77,17 @@
                                             <input type="text" class="form-control" name="phone" id="phone" value="<?php echo $this->form_validation->set_value('phone', $user_sess->phone); ?>" placeholder="Phone" required>
                                         </div>
                                     </div>
+                                    <div class="row mb-3">
+                                        <label for="marital_status" class="col-sm-2 form-label wahlabel">Status Pernikahan</label>
+                                        <div class="col-sm-8">
+                                                <div class="icheck-primary">
+                                                    <input type="radio" name="marital_status" id="belummenikah" value="Belum Menikah" <?php echo ($user_sess->marital_status === 'Belum Menikah') ? 'checked="checked"' : null; ?>> <label for="belummenikah">Belum Menikah</label>
+                                                </div>
+                                                <div class="icheck-primary">
+                                                    <input type="radio" name="marital_status" id="sudahmenikah" value="Sudah Menikah" <?php echo ($user_sess->marital_status === 'Sudah Menikah') ? 'checked="checked"' : null; ?>> <label for="sudahmenikah">Sudah Menikah</label>
+                                                </div>
+                                        </div>
+                                    </div>
                                     <div class="form-group row">
                                         <label for="company" class="col-sm-2 col-form-label">Company</label>
                                         <div class="col-sm-10">

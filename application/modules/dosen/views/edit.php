@@ -43,6 +43,18 @@
                                     </div>
                               </div>
                         </div>
+
+                        <div class="row mb-3">
+                              <label for="marital_status" class="col-sm-2 form-label wahlabel">Status Pernikahan</label>
+                              <div class="col-sm-8">
+                                    <div class="icheck-primary">
+                                          <input type="radio" name="marital_status" id="belummenikah" value="Belum Menikah" <?php echo ($user->marital_status === 'Belum Menikah') ? 'checked="checked"' : null; ?>> <label for="belummenikah">Belum Menikah</label>
+                                    </div>
+                                    <div class="icheck-primary">
+                                          <input type="radio" name="marital_status" id="sudahmenikah" value="Sudah Menikah" <?php echo ($user->marital_status === 'Sudah Menikah') ? 'checked="checked"' : null; ?>> <label for="sudahmenikah">Sudah Menikah</label>
+                                    </div>
+                              </div>
+                        </div>
                         
                         <div class="row mb-3">
                               <label for="status" class="col-sm-2 form-label wahlabel">Status</label>
